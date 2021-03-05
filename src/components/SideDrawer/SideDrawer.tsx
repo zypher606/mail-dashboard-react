@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import clsx from 'clsx';
 import { createStyles, makeStyles, useTheme, Theme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -17,7 +17,21 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
+import Collapse from '@material-ui/core/Collapse';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import DashboardIcon from '@material-ui/icons/Dashboard';
+import BorderOuterIcon from '@material-ui/icons/BorderOuter';
+import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import MailOutlineIcon from '@material-ui/icons/MailOutline';
+import BarChartIcon from '@material-ui/icons/BarChart';
+import PieChartIcon from '@material-ui/icons/PieChart';
+import WidgetsIcon from '@material-ui/icons/Widgets';
+import DescriptionIcon from '@material-ui/icons/Description';
+import ComputerIcon from '@material-ui/icons/Computer';
 import { useStyles } from './styles';
+import userAvatarIcon from '../../assets/images/avatar-user-svg.svg';
+import { Avatar } from '@material-ui/core';
 
 interface ISideDrawer {
   isDrawerOpen: boolean;
@@ -28,8 +42,11 @@ export const SideDrawer = ({
 }: ISideDrawer) => {
   const classes = useStyles();
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [openMailboxTab, setOpenMailboxTab] = useState(true);
 
+  const handleMailboxTabClick = () => {
+    setOpenMailboxTab(!openMailboxTab);
+  }
 
   return (
     <Drawer
@@ -42,30 +59,96 @@ export const SideDrawer = ({
         paper: clsx({
           [classes.drawerOpen]: isDrawerOpen,
           [classes.drawerClose]: !isDrawerOpen,
-        }),
+          [classes.paper]: true,
+        } ),
       }}
     >
       <div className={classes.toolbar}>
-        
+        <Avatar alt="Ashim Raj" src={userAvatarIcon} />
+        <div className={classes.toolbarUsername}>
+          David Williams
+        </div>
       </div>
       <Divider />
-      <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
+
+      <List
+        component="nav"
+        aria-labelledby="nested-list-subheader"
+        className={classes.listTabStyles}
+      >
+        <ListItem button>
+          <ListItemIcon className={classes.listTabStyles}>
+            <DashboardIcon  />
+          </ListItemIcon>
+          <ListItemText primary="Dashboards" />
+        </ListItem>
+        <ListItem button>
+          <ListItemIcon className={classes.listTabStyles}>
+            <BorderOuterIcon />
+          </ListItemIcon>
+          <ListItemText primary="Layouts" />
+        </ListItem>
+        <ListItem button>
+          <ListItemIcon className={classes.listTabStyles}>
+            <BarChartIcon />
+          </ListItemIcon>
+          <ListItemText primary="Graphs" />
+          <KeyboardArrowLeftIcon />
+        </ListItem>
+        <ListItem 
+          button 
+          className={classes.listTabActiveStyles} 
+          onClick={handleMailboxTabClick}
+        >
+          <ListItemIcon className={classes.listTabActiveStyles}>
+            <MailOutlineIcon />
+          </ListItemIcon>
+          <ListItemText primary="Mailbox" />
+          {openMailboxTab && isDrawerOpen ? <KeyboardArrowDownIcon /> : <KeyboardArrowLeftIcon />}
+        </ListItem>
+        <Collapse in={openMailboxTab && isDrawerOpen} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <ListItem button className={clsx(classes.nested, classes.listTabActiveStyles)}>
+              <ListItemText primary="Inbox" />
+            </ListItem>
+            <ListItem button className={classes.nested}>
+              <ListItemText primary="Email View" />
+            </ListItem>
+            <ListItem button className={classes.nested}>
+              <ListItemText primary="Compose Email" />
+            </ListItem>
+            <ListItem button className={classes.nested}>
+              <ListItemText primary="Email Templates" />
+            </ListItem>
+          </List>
+        </Collapse>
+        <ListItem button>
+          <ListItemIcon className={classes.listTabStyles}>
+            <BarChartIcon />
+          </ListItemIcon>
+          <ListItemText primary="Metrics" />
+        </ListItem>
+        <ListItem button>
+          <ListItemIcon className={classes.listTabStyles}>
+            <PieChartIcon />
+          </ListItemIcon>
+          <ListItemText primary="Widgets" />
+        </ListItem>
+        <ListItem button>
+          <ListItemIcon className={classes.listTabStyles}>
+            <DescriptionIcon />
+          </ListItemIcon>
+          <ListItemText primary="Forms" />
+          <KeyboardArrowLeftIcon />
+        </ListItem>
+        <ListItem button>
+          <ListItemIcon className={classes.listTabStyles}>
+            <ComputerIcon />
+          </ListItemIcon>
+          <ListItemText primary="App Views" />
+        </ListItem>
       </List>
-      <Divider />
-      <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
+      
     </Drawer>
   )
 }
