@@ -16,6 +16,7 @@ export const AppRouter = ({ authenticated }: IAppRouter) => {
             if (isUserAuthenticated)
               return (
                 <ProtectedRoute
+                  key={path}
                   path={path}
                   exact
                   component={Component}
@@ -25,6 +26,7 @@ export const AppRouter = ({ authenticated }: IAppRouter) => {
             else
               return (
                 <Route
+                  key={path}
                   path={path}
                   exact
                   render={(props) => (

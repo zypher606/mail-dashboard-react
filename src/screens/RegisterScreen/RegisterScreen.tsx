@@ -9,32 +9,41 @@ import {
   Grid,
   InputAdornment, TextField
 } from "@material-ui/core";
-import { MailOutline, LockOpen } from "@material-ui/icons";
+import { MailOutline, LockOpen, Face as FaceIcon } from "@material-ui/icons";
 import { useStyles } from "./styles";
+import { userSignup } from "../../stores/actions";
 
 export const RegisterScreen = () => {
 
   const classes = useStyles();
 
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleValidation = () => {
-    return validateEmail() && password.length > 4;
+    return validateEmail() && password.length > 4 && validateName();
   };
 
   const validateEmail = () => {
     if (email.length < 1) return false;
-    return !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
+    return /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
   };
+
+  const validateName = () => {
+    // const regex = /^[a-zA-Z]+ [a-zA-Z]+$/;
+    return name.length > 0 && /^[a-zA-Z]+ [a-zA-Z]+$/i.test(name);
+  }
 
   const handleKeyPress = (e: any) => {
     if (/enter/gi.test(e.key) && handleValidation()) {
-      handleClick();
+      handleSubmit();
     }
   };
 
-  const handleClick = () => {
+  const handleSubmit = () => {
+
+    userSignup({name, email, password});
     console.log(`Send ${email.toLowerCase()} && ${password}`);
   };
 
@@ -59,13 +68,31 @@ export const RegisterScreen = () => {
               <CardContent>
                 <TextField
                   required
+                  id="name"
+                  label="Full name"
+                  value={name}
+                  onChange={({target: { value }}: any) => setName(value)}
+                  onKeyDown={handleKeyPress}
+                  error={!validateName()}
+                  margin="normal"
+                  fullWidth
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <FaceIcon />
+                      </InputAdornment>
+                    )
+                  }}
+                />
+                <TextField
+                  required
                   id="email"
                   label="Email"
                   helperText="email@example.com"
                   value={email}
                   onChange={({target: { value }}: any) => setEmail(value)}
                   onKeyDown={handleKeyPress}
-                  error={validateEmail()}
+                  error={!validateEmail()}
                   margin="normal"
                   fullWidth
                   InputProps={{
@@ -98,7 +125,7 @@ export const RegisterScreen = () => {
               </CardContent>
               <CardActions className={classes.action}>
                 <Button
-                  onClick={handleClick}
+                  onClick={handleSubmit}
                   disabled={!handleValidation()}
                   color="secondary"
                   className={classes.button}
