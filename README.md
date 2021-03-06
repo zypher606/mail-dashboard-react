@@ -1,6 +1,25 @@
-# Getting Started with Create React App
+## Demo
+[https://xenodochial-turing-e82df7.netlify.app/](https://xenodochial-turing-e82df7.netlify.app/)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Requirements
+
+Problem Statement
+Using the attached screen shot for an admin dashboard, please construct a simple UI that exhibits functionalities listed below in relevant section. Following are few guidelines.
+1. You are free to use Vanilla javascript / JS Framework of your choice 
+2. The UI need not have a server back end and you can use Mock Data with CRUD operations on HTML5 Local Storage
+3. Feel free to select an alternative color theme and assets.
+4. Please provide Test Coverage
+
+For the functionality requested please see the images attached.
+
+1. A login page with a simple form where the user can enter an email and password as credential. If the credential matches the mock data, the user gets redirected to the Dashboard Page with a list of Emails on his Inbox(Mock Data)
+2. Compose mail should open a pop up that allows you to write a simple mail with To and CC fields, subject and a body 
+3. Upon submission, the email should be stored in local storage and should appear in the list of Sent Emails
+4. If we logout and login with the credentials(email & password) of the user to whom the email was sent, he should be able to see the new email at top of the list on his Inbox
+5. The user can click on an email to read it and the numbers on unread emails(Mail icon at top right corner of the header) should get updated based on the unread emails on Inbox
+6. The user should be able to select and delete the emails from his Inbox  
+The menu bar on left can exist in a collapsed or an expanded state as demonstrated in the screenshot
+7. Rest of the screen can remain non-functional and static as long as look and feel can match
 
 ## Available Scripts
 
