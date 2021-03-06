@@ -7,6 +7,7 @@ import {
   USER_SIGNIN_ERROR,
 } from "./Types";
 import { ActionDispatcher } from "../ActionDispatcher/ActionDispatcher";
+import { StorageManager } from "../../utilities";
 
 export function userSignup(payload: any) {
   return ActionDispatcher.getInstance().dispatch({
@@ -29,13 +30,16 @@ export function userSignupError(error: any) {
   };
 }
 
-export function userSignin() {
+export function userSignin(payload: any) {
   return ActionDispatcher.getInstance().dispatch({
     type: USER_SIGNIN,
+    payload,
   });
 }
 
 export function userSigninSuccess(response: any) {
+  StorageManager.set('authorized', 'true');
+  StorageManager.set('currentUser', response);
   return {
     type: USER_SIGNIN_SUCCESS,
     response,

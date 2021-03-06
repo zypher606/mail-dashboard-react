@@ -7,7 +7,7 @@ import {
   userSignupError,
 } from "./Actions";
 
-export function* handleUserSignin(payload: any): any {
+export function* handleUserSignin({type, payload}: any): any {
   try {
     const response = yield call(userSignin, payload);
     yield put(userSigninSuccess(response));

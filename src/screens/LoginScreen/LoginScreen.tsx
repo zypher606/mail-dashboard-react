@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Avatar,
   Button, Card,
@@ -11,8 +11,14 @@ import {
 } from "@material-ui/core";
 import { MailOutline, LockOpen } from "@material-ui/icons";
 import { useStyles } from "./styles";
+import { userSignin } from "../../stores/actions";
+import { connect } from '../../stores';
 
-export const LoginScreen = () => {
+interface ILoginScreen {
+  user: any;
+  history: any;
+}
+export const LoginScreen = connect()(({ user, history}: ILoginScreen) => {
 
   const classes = useStyles();
 
@@ -25,22 +31,30 @@ export const LoginScreen = () => {
 
   const validateEmail = () => {
     if (email.length < 1) return false;
-    return !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
+    return /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
   };
 
   const handleKeyPress = (e: any) => {
     if (/enter/gi.test(e.key) && handleValidation()) {
-      handleClick();
+      handleSubmit();
     }
   };
 
-  const handleClick = () => {
-    console.log(`Send ${email.toLowerCase()} && ${password}`);
+  const handleSubmit = () => {
+    // console.log(`Send ${email.toLowerCase()} && ${password}`);
+    console.log("=======>", user);
+    userSignin({ email, password });
   };
+
+  useEffect(() => {
+    if (user && user.profile) {
+      history.push('/mailbox');
+    }
+  }, [user])
 
   
 
- 
+  
   return (
     <div className={classes.container}>
       <Container>
@@ -65,7 +79,7 @@ export const LoginScreen = () => {
                   value={email}
                   onChange={({target: { value }}: any) => setEmail(value)}
                   onKeyDown={handleKeyPress}
-                  error={validateEmail()}
+                  error={!validateEmail()}
                   margin="normal"
                   fullWidth
                   InputProps={{
@@ -98,7 +112,7 @@ export const LoginScreen = () => {
               </CardContent>
               <CardActions className={classes.action}>
                 <Button
-                  onClick={handleClick}
+                  onClick={handleSubmit}
                   disabled={!handleValidation()}
                   color="secondary"
                   className={classes.button}
@@ -112,4 +126,4 @@ export const LoginScreen = () => {
       </Container>
     </div>
   );
-}
+});

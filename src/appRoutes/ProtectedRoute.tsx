@@ -1,18 +1,32 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { Routes } from './RouteMappings';
+import { StorageManager } from "../utilities";
 
 export const ProtectedRoute = ({
   component: Component,
-  authenticated,
+  isProtected,
   ...routeProps
 }: any) => {
+
+  const authorized = StorageManager.get('authorized');
+  const authenticated = authorized === 'true';
+  
   return (
     <Route
       {...routeProps}
       render={(props) =>
         authenticated === true ? (
-          <Component authenticated={authenticated} {...props} />
+          isProtected === true ? (
+            <Component authenticated={authenticated} {...props} />
+          ): (
+            <Redirect
+              to={{
+                pathname: Routes.MAILBOX,
+                state: { from: props.location },
+              }}
+            />
+          )
         ) : (
           <Redirect
             to={{
