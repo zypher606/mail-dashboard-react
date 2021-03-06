@@ -1,4 +1,7 @@
-# Requirements
+## Demo
+[https://xenodochial-turing-e82df7.netlify.app/](https://xenodochial-turing-e82df7.netlify.app/)
+
+## Requirements
 
 Problem Statement
 Using the attached screen shot for an admin dashboard, please construct a simple UI that exhibits functionalities listed below in relevant section. Following are few guidelines.
