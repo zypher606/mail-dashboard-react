@@ -57,10 +57,15 @@ class Email {
     return filteredEmails;
   }
 
+  getEmailThread = (threadId: string) => {
+    const emails: IEmail[] = this.getEmailCollection();
+    const result = emails.filter(({thread_id}: any) => thread_id === threadId);
+    return result;
+  }
+
   getEmailsGroupedByThread = () => {
     const { email: email_id }: any = StorageManager.get('currentUser');
 
-    console.log("===============>", {email_id})
     const emails: IEmail[] = this.getEmailCollection();
     const filteredEmails: IEmail[] = emails.filter(({to}) => to === email_id );
     const result: any = {};

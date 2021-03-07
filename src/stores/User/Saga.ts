@@ -19,7 +19,6 @@ export function* handleUserSignin({type, payload}: any): any {
 }
 
 export function* handleUserSignup({type, payload}: any): any {
-  console.log("assas", payload)
   try {
     const response = yield call(userSignup, payload);
     yield put(userSignupSuccess(response));

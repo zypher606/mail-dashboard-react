@@ -16,8 +16,7 @@ import IconButton from '@material-ui/core/IconButton';
 import EmailList from './components/EmailList';
 import { useStyles } from './styles';
 import { connect } from '../../stores';
-import { emailFetchAll } from "../../stores/actions";
-import { userSessionFetch } from "../../stores/actions";
+import { emailFetchAll, userSessionFetch } from "../../stores/actions";
 import './mailboxScreen.scss';
 
 interface IMailboxScreen {
@@ -36,13 +35,6 @@ export const MailboxScreen = connect()(({user, email, history}: IMailboxScreen) 
   const handleDrawerStateChange = (state: boolean) => {
     setIsDrawerOpen(state);
   }
-
-  useEffect(() => {
-    console.log("=========>xxxx", email);
-    if (user?.profile?.email) {
-      // emailFetchAll(user.profile.email)
-    }
-  }, [user])
 
   useEffect(() => {
     userSessionFetch();
@@ -67,7 +59,7 @@ export const MailboxScreen = connect()(({user, email, history}: IMailboxScreen) 
 
         <Grid container spacing={1}>
           <Grid item xs={3}>
-            <Sidebar handleComposeMail={() => setIsComposeEmailDialogOpen(true)}  />
+            <Sidebar unreadCount={email.unreadCount} handleComposeMail={() => setIsComposeEmailDialogOpen(true)}  />
           </Grid>
           <Grid item xs={9}>
             <Paper>

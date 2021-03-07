@@ -41,8 +41,6 @@ export const LoginScreen = connect()(({ user, history}: ILoginScreen) => {
   };
 
   const handleSubmit = () => {
-    // console.log(`Send ${email.toLowerCase()} && ${password}`);
-    console.log("=======>", user);
     userSignin({ email, password });
   };
 

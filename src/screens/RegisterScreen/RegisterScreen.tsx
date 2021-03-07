@@ -42,9 +42,7 @@ export const RegisterScreen = () => {
   };
 
   const handleSubmit = () => {
-
     userSignup({name, email, password});
-    console.log(`Send ${email.toLowerCase()} && ${password}`);
   };
 
   

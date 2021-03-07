@@ -89,10 +89,12 @@ const labels = [
 
 interface ISidebar {
   handleComposeMail: any,
+  unreadCount: number,
 }
 
 export const Sidebar = ({
   handleComposeMail,
+  unreadCount,
 }: ISidebar) => {
 
   
@@ -104,7 +106,8 @@ export const Sidebar = ({
         <div className={classes.composeMailButtonContainer}>
           <Button onClick={handleComposeMail} className={classes.composeMailButton} variant="contained" color="secondary" >Compose Mail</Button>
         </div>
-        <Folders />
+        <br/>
+        <Folders unreadCount={unreadCount} />
         <br/>
         <Categories categories={categories} />
         <br/>

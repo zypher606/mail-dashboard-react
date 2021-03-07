@@ -7,7 +7,6 @@ export const withAuth = (AppComponent: any) => {
     constructor(props: any) {
       super(props);
 
-      console.log(props)
       const authorized = StorageManager.get('authorized');
 
       this.state = {
@@ -43,7 +42,6 @@ export const withAuth = (AppComponent: any) => {
       });
 
     componentDidMount() {
-      console.log("asasasaaaaa")
     }
 
     render(): JSX.Element {

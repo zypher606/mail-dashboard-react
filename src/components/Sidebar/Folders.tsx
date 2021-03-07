@@ -12,21 +12,28 @@ import StarBorderIcon from '@material-ui/icons/StarBorder';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import { useStyles } from './styles';
 import { Badge } from '../';
+import { useHistory } from 'react-router-dom';
+import { Routes } from '../../appRoutes/RouteMappings';
 
 
-export default function Folders() {
+export default function Folders({unreadCount}: any) {
 
   const classes = useStyles();
+  const history = useHistory();
+
+  const navigateToMailbox = () => {
+    history.push(Routes.MAILBOX);
+  }
 
   return (
     <List component="nav" aria-label="main mailbox folders">
       <div className={classes.collectionHeading}>FOLDERS</div>
-      <ListItem button>
+      <ListItem button onClick={navigateToMailbox} >
         <ListItemIcon className={classes.listItemIcon} >
           <InboxIcon />
         </ListItemIcon>
         <ListItemText primary="Inbox" />
-        <Badge color={'#ee524d'}>2</Badge>
+        <Badge color={'#ee524d'}>{unreadCount}</Badge>
       </ListItem>
       <Divider />
       <ListItem button>

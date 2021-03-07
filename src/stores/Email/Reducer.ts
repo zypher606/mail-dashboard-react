@@ -5,6 +5,9 @@ import {
   EMAIL_FETCH_ALL,
   EMAIL_FETCH_ALL_SUCCESS,
   EMAIL_FETCH_ALL_ERROR,
+  EMAIL_FETCH_THREAD,
+  EMAIL_FETCH_THREAD_SUCCESS,
+  EMAIL_FETCH_THREAD_ERROR,
 } from "./Types";
 
 interface IProductsState {
@@ -12,6 +15,7 @@ interface IProductsState {
   error: any;
   emails: any;
   unreadCount: number;
+  thread: any;
 }
 
 const initialState = {
@@ -19,6 +23,7 @@ const initialState = {
   error: null,
   emails: null,
   unreadCount: 0,
+  thread: [],
 };
 
 interface IProductsReducerAction {
@@ -28,7 +33,10 @@ interface IProductsReducerAction {
     | typeof EMAIL_ADD_ERROR
     | typeof EMAIL_FETCH_ALL
     | typeof EMAIL_FETCH_ALL_SUCCESS
-    | typeof EMAIL_FETCH_ALL_ERROR;
+    | typeof EMAIL_FETCH_ALL_ERROR
+    | typeof EMAIL_FETCH_THREAD
+    | typeof EMAIL_FETCH_THREAD_SUCCESS
+    | typeof EMAIL_FETCH_THREAD_ERROR;
   response?: any;
   error?: any;
 }
@@ -56,6 +64,12 @@ export default function reducer(
       return { ...state, emails: response, unreadCount: response.filter(({is_read}: any) => is_read !== true ).length };
     case EMAIL_FETCH_ALL_ERROR:
       return { ...state, error: error };
+    case EMAIL_FETCH_THREAD:
+      return { ...state, loading: true };
+    case EMAIL_FETCH_THREAD_SUCCESS:
+      return { ...state, thread: response };
+    case EMAIL_FETCH_THREAD_ERROR:
+      return { ...state, error };
     default:
       return { ...state };
   }

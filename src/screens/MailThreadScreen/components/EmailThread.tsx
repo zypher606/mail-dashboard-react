@@ -5,24 +5,24 @@ import { emailThread } from '../mock-data/emails';
 import { useStyles } from '../styles';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 
-export default function EmailThread() {
+export default function EmailThread({ thread }: any) {
 
   const classes = useStyles();
 
   return (
     <div>
-      <h5>Sahaj: Coding Assignment - UI</h5>
       {
-        emailThread.emails.map(({id, from, to, cc, message, date}: any, index: number) => (
+        thread.map(({id, from, to, cc, subject, body, date}: any, index: number) => (
           <Accordion 
             key={index}
-            openDefault={index === emailThread.emails.length - 1}
+            openDefault={index === thread.length - 1}
+            fixed={index === thread.length - 1}
             heading={
               <div>
                 {
                   index === 0 &&
                   <div className={classes.emailSubject}>
-                    {emailThread.subject}
+                    {subject}
                     <br/>
                   </div>
                 } 
@@ -31,8 +31,8 @@ export default function EmailThread() {
                   <Avatar className={classes.emailThreadHeadingAvatar}>H</Avatar>
                   
                   <div className={classes.emailThreadMessageTruncated}>
-                    <Typography className={classes.emailThreadMessageUsername}>{to.name}</Typography>
-                    <div className={classes.emailThreadMessageTruncated}>{message}</div>
+                    <Typography className={classes.emailThreadMessageUsername}>{to}</Typography>
+                    <div className={classes.emailThreadMessageTruncated}>{body}</div>
                   </div>
 
                   <Typography className={classes.emailThreadDate}>{date}</Typography>

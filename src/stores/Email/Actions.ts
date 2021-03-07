@@ -5,6 +5,9 @@ import {
   EMAIL_FETCH_ALL,
   EMAIL_FETCH_ALL_SUCCESS,
   EMAIL_FETCH_ALL_ERROR,
+  EMAIL_FETCH_THREAD,
+  EMAIL_FETCH_THREAD_SUCCESS,
+  EMAIL_FETCH_THREAD_ERROR,
 } from "./Types";
 import { ActionDispatcher } from "../ActionDispatcher/ActionDispatcher";
 import { StorageManager } from "../../utilities";
@@ -46,6 +49,27 @@ export function emailFetchAllSuccess(response: any) {
 export function emailFetchAllError(error: any) {
   return {
     type: EMAIL_FETCH_ALL_ERROR,
+    error,
+  };
+}
+
+export function emailFetchThread(payload: any) {
+  return ActionDispatcher.getInstance().dispatch({
+    type: EMAIL_FETCH_THREAD,
+    payload,
+  });
+}
+
+export function emailFetchThreadSuccess(response: any) {
+  return {
+    type: EMAIL_FETCH_THREAD_SUCCESS,
+    response,
+  };
+}
+
+export function emailFetchThreadError(error: any) {
+  return {
+    type: EMAIL_FETCH_THREAD_ERROR,
     error,
   };
 }

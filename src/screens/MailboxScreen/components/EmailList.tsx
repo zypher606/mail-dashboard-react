@@ -11,6 +11,8 @@ import CommentIcon from '@material-ui/icons/Comment';
 import { Grid } from '@material-ui/core';
 import { Badge } from '../../../components';
 import AttachmentIcon from '@material-ui/icons/Attachment';
+import { useHistory } from 'react-router-dom';
+import { Routes } from '../../../appRoutes/RouteMappings';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -25,6 +27,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function EmailList({emails}: any) {
   const classes = useStyles();
   const [checked, setChecked] = React.useState([0]);
+  const history = useHistory();
 
   const handleToggle = (value: number) => () => {
     const currentIndex = checked.indexOf(value);
@@ -39,13 +42,17 @@ export default function EmailList({emails}: any) {
     setChecked(newChecked);
   };
 
+  const handleMailOpen = (thread_id: string) => {
+    history.push(Routes.MAILBOX_THREAD(thread_id));
+  }
+
   return (
     <List className={classes.root}>
-      {emails.map(({from, subject, body, id, is_read}: any) => {
+      {emails.map(({from, subject, body, id, is_read, thread_id}: any) => {
         const labelId = `checkbox-list-label-${id}`;
 
         return (
-          <ListItem key={id} role={undefined} dense button onClick={handleToggle(1)}>
+          <ListItem key={id} role={undefined} dense button onClick={() => handleMailOpen(thread_id)}>
             <ListItemIcon>
               <Checkbox
                 edge="start"
