@@ -10,7 +10,7 @@ import {
   EMAIL_FETCH_THREAD_ERROR,
 } from "./Types";
 
-interface IProductsState {
+interface IEmailState {
   loading: boolean;
   error: any;
   emails: any;
@@ -26,7 +26,7 @@ const initialState = {
   thread: [],
 };
 
-interface IProductsReducerAction {
+interface IEmailReducerAction {
   type:
     | typeof EMAIL_ADD
     | typeof EMAIL_ADD_SUCCESS
@@ -42,9 +42,9 @@ interface IProductsReducerAction {
 }
 
 export default function reducer(
-  state: IProductsState = initialState,
-  { type, response, error }: IProductsReducerAction
-): IProductsState {
+  state: IEmailState = initialState,
+  { type, response, error }: IEmailReducerAction
+): IEmailState {
   switch (type) {
     case EMAIL_ADD:
       return {
