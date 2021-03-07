@@ -5,6 +5,8 @@ import {
   USER_SIGNIN,
   USER_SIGNIN_SUCCESS,
   USER_SIGNIN_ERROR,
+  USER_SESSION_FETCH_SUCCESS,
+  USER_SESSION_FETCH_ERROR,
 } from "./Types";
 
 interface IProductsState {
@@ -26,7 +28,9 @@ interface IProductsReducerAction {
     | typeof USER_SIGNUP_ERROR
     | typeof USER_SIGNIN
     | typeof USER_SIGNIN_SUCCESS
-    | typeof USER_SIGNIN_ERROR;
+    | typeof USER_SIGNIN_ERROR
+    | typeof USER_SESSION_FETCH_SUCCESS
+    | typeof USER_SESSION_FETCH_ERROR;
   response?: any;
   error?: any;
 }
@@ -54,6 +58,10 @@ export default function reducer(
       return { ...state };
     case USER_SIGNUP_ERROR:
       return { ...state, error: error };
+    case USER_SESSION_FETCH_SUCCESS:
+      return { ...state, profile: response };
+    case USER_SESSION_FETCH_ERROR:
+      return { ...state, error }
     default:
       return { ...state };
   }

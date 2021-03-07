@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Navigation, Sidebar } from '../../components';
+import React, { useEffect, useState } from 'react';
+import { ComposeEmail, Navigation, Sidebar } from '../../components';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import { sideDrawerWidth as drawerWidth } from '../../styles';
@@ -15,22 +15,32 @@ import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import IconButton from '@material-ui/core/IconButton';
 import EmailList from './components/EmailList';
 import { useStyles } from './styles';
+import { connect } from '../../stores';
 import './mailboxScreen.scss';
 
+interface IMailboxScreen {
+  user: any;
+  history: any;
+}
 
-export const MailboxScreen = () => {
+export const MailboxScreen = connect()(({user, history}: IMailboxScreen) => {
 
   const classes = useStyles();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [searchBoxFocused, setSearchBoxFocused] = useState(false);
+  const [isComposeEmailDialogOpen, setIsComposeEmailDialogOpen] = useState(false);
 
   const handleDrawerStateChange = (state: boolean) => {
     setIsDrawerOpen(state);
   }
 
+  useEffect(() => {
+    console.log("=========>",user);
+  }, [user])
+  
   return (
     <div className="dashboard-container">
-      <Navigation handleDrawerToggle={handleDrawerStateChange}/>
+      <Navigation profile={user?.profile} handleDrawerToggle={handleDrawerStateChange}/>
 
       <Container
         className={clsx(classes.container, {
@@ -46,7 +56,7 @@ export const MailboxScreen = () => {
 
         <Grid container spacing={1}>
           <Grid item xs={3}>
-            <Sidebar />
+            <Sidebar handleComposeMail={() => setIsComposeEmailDialogOpen(true)}  />
           </Grid>
           <Grid item xs={9}>
             <Paper>
@@ -109,6 +119,9 @@ export const MailboxScreen = () => {
           
         </Grid>
       </Container>
+
+      <ComposeEmail open={isComposeEmailDialogOpen} handleClose={() => setIsComposeEmailDialogOpen(false)} />
+
     </div>
   )
-}
+})

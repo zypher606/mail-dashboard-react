@@ -35,10 +35,12 @@ import { Avatar } from '@material-ui/core';
 
 interface ISideDrawer {
   isDrawerOpen: boolean;
+  profile: any;
 }
 
 export const SideDrawer = ({
   isDrawerOpen,
+  profile,
 }: ISideDrawer) => {
   const classes = useStyles();
   const theme = useTheme();
@@ -66,7 +68,9 @@ export const SideDrawer = ({
       <div className={classes.toolbar}>
         <Avatar alt="Ashim Raj" src={userAvatarIcon} />
         <div className={classes.toolbarUsername}>
-          David Williams
+          {
+            profile?.name || 'John Doe'
+          }
         </div>
       </div>
       <Divider />

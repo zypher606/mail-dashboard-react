@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Navigation, Sidebar } from '../../components';
+import { ComposeEmail, Navigation, Sidebar } from '../../components';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import { sideDrawerWidth as drawerWidth } from '../../styles';
@@ -22,6 +22,7 @@ export const MailThreadScreen = () => {
 
   const classes = useStyles();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isComposeEmailDialogOpen, setIsComposeEmailDialogOpen] = useState(false);
   const [searchBoxFocused, setSearchBoxFocused] = useState(false);
 
   const handleDrawerStateChange = (state: boolean) => {
@@ -30,7 +31,7 @@ export const MailThreadScreen = () => {
 
   return (
     <div className="dashboard-container">
-      <Navigation handleDrawerToggle={handleDrawerStateChange}/>
+      {/* <Navigation handleDrawerToggle={handleDrawerStateChange}/> */}
 
       <Container
         className={clsx(classes.container, {
@@ -46,7 +47,7 @@ export const MailThreadScreen = () => {
 
         <Grid container spacing={1}>
           <Grid item xs={3}>
-            <Sidebar />
+            <Sidebar handleComposeMail={() => setIsComposeEmailDialogOpen(true)}  />
           </Grid>
           <Grid item xs={9}>
             <EmailThread />
@@ -54,6 +55,7 @@ export const MailThreadScreen = () => {
           
         </Grid>
       </Container>
+      <ComposeEmail open={isComposeEmailDialogOpen} handleClose={() => setIsComposeEmailDialogOpen(false)} />
     </div>
   )
 }
