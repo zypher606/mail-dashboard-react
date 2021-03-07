@@ -72,6 +72,10 @@ export const RegisterScreen = connect()(({user}: any) => {
     }
    
   }, [user])
+
+  const handleNavigationToLogin = () => {
+    history.push(Routes.LOGIN);
+  }
  
   return (
     <div className={classes.container}>
@@ -147,11 +151,15 @@ export const RegisterScreen = connect()(({user}: any) => {
                 />
               </CardContent>
               <CardActions className={classes.action}>
+              <Button
+                  className={classes.loginLinkButton}
+                  onClick={handleNavigationToLogin}
+                >Already Registered?</Button>
                 <Button
                   onClick={handleSubmit}
                   disabled={!handleValidation()}
                   color="secondary"
-                  className={classes.button}
+                  className={classes.registerButton}
                   variant="contained">
                   Register
                 </Button>

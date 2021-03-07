@@ -14,10 +14,14 @@ export const useStyles = makeStyles((theme: Theme) => ({
     marginRight: theme.spacing(1),
   },
   action: {
-    flexDirection: "row-reverse"
+    display: 'block',
   },
-  button : {
+  registerButton : {
+    float: 'right',
     color: '#fff',
+  },
+  loginLinkButton: {
+    color: '#000',
   },
   avatar: {
     backgroundColor: theme.palette.secondary.main,

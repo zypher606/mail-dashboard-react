@@ -63,7 +63,7 @@ export default function EmailList({emails}: any) {
               />
             </ListItemIcon>
             <Grid container spacing={1}>
-              <Grid item xs={3}>
+              <Grid item xs={5}>
                 <ListItemText id={labelId} primary={from} />
 
               </Grid>
@@ -75,7 +75,7 @@ export default function EmailList({emails}: any) {
                   }
                 </ListItemText>
               </Grid>
-              <Grid item xs={5}>
+              <Grid item xs={3}>
                 <ListItemText id={labelId} primary={body} />
               </Grid>
               <Grid item xs={1}>

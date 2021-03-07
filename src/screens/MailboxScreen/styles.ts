@@ -15,6 +15,7 @@ export const useStyles = makeStyles((theme: any) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
+    maxWidth: '1500px',
   },
   containerShift: {
     marginLeft: drawerWidth,

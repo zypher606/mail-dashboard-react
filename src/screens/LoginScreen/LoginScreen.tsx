@@ -13,6 +13,7 @@ import { MailOutline, LockOpen } from "@material-ui/icons";
 import { useStyles } from "./styles";
 import { userSignin } from "../../stores/actions";
 import { connect } from '../../stores';
+import { Routes } from "../../appRoutes/RouteMappings";
 
 interface ILoginScreen {
   user: any;
@@ -46,12 +47,14 @@ export const LoginScreen = connect()(({ user, history}: ILoginScreen) => {
 
   useEffect(() => {
     if (user && user.profile) {
-      history.push('/mailbox');
+      history.push(Routes.MAILBOX);
     }
   }, [user])
 
   
-
+  const handleNavigationToRegister = () => {
+    history.push(Routes.REGISTER);
+  }
   
   return (
     <div className={classes.container}>
@@ -110,10 +113,14 @@ export const LoginScreen = connect()(({ user, history}: ILoginScreen) => {
               </CardContent>
               <CardActions className={classes.action}>
                 <Button
+                  className={classes.registerLinkBtn}
+                  onClick={handleNavigationToRegister}
+                >New User? Register here!</Button>
+                <Button
                   onClick={handleSubmit}
                   disabled={!handleValidation()}
                   color="secondary"
-                  className={classes.button}
+                  className={classes.loginButton}
                   variant="contained">
                   Login
                 </Button>
