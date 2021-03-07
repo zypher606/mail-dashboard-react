@@ -17,18 +17,24 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { Button } from '@material-ui/core';
 import { useStyles } from './styles';
 import { sideDrawerWidth as drawerWidth } from '../../styles';
+import { StorageManager } from '../../utilities';
+import { useHistory } from 'react-router-dom';
+import { Routes } from '../../appRoutes/RouteMappings';
 
 interface IHeader {
   isDrawerOpen: any;
   handleDrawerToggle: any;
+  unreadCount: number;
 }
 export const Header = ({
   isDrawerOpen,
   handleDrawerToggle,
+  unreadCount,
 }: IHeader) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const history = useHistory();
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -49,6 +55,12 @@ export const Header = ({
   const handleMobileMenuOpen = (event: any) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+
+  const handleLogout = () => {
+    StorageManager.remove('authorized');
+    StorageManager.remove('currentUser');
+    history.push(Routes.LOGIN);
+  }
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -79,7 +91,7 @@ export const Header = ({
     >
       <MenuItem>
         <IconButton aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="secondary">
+          <Badge badgeContent={unreadCount} color="secondary">
             <MailIcon />
           </Badge>
         </IconButton>
@@ -146,7 +158,7 @@ export const Header = ({
             <IconButton aria-label="show 4 new mails">
               <Badge 
                 badgeContent={
-                  <span className={classes.badgeContent}>{12}</span>
+                  <span className={classes.badgeContent}>{unreadCount}</span>
                 }
                 classes={{ badge: classes.mailNavBadge }}
                 color="primary"
@@ -165,7 +177,7 @@ export const Header = ({
               </Badge>
             </IconButton>
             <Button
-              onClick={handleProfileMenuOpen}
+              onClick={handleLogout}
               color="inherit"
               className={classes.navButtonLogout}
             >

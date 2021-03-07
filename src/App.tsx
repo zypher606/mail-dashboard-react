@@ -12,12 +12,12 @@ import { withAuth } from "./hocs/withAuth";
 
 const App = (props: any): JSX.Element => {
   return (
-    <MuiThemeProvider theme={theme}>
-      <Provider store={appStore}>
+    <Provider store={appStore}>
+      <MuiThemeProvider theme={theme}>
         <AppRouter authenticated={props.authenticated} />
-      </Provider>
-    </MuiThemeProvider>
+      </MuiThemeProvider>
+    </Provider>
   );
 }
 
-export default withAuth(App);
+export default App;

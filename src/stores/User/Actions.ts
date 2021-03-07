@@ -5,8 +5,12 @@ import {
   USER_SIGNIN,
   USER_SIGNIN_SUCCESS,
   USER_SIGNIN_ERROR,
+  USER_SESSION_FETCH,
+  USER_SESSION_FETCH_SUCCESS,
+  USER_SESSION_FETCH_ERROR,
 } from "./Types";
 import { ActionDispatcher } from "../ActionDispatcher/ActionDispatcher";
+import { StorageManager } from "../../utilities";
 
 export function userSignup(payload: any) {
   return ActionDispatcher.getInstance().dispatch({
@@ -29,13 +33,16 @@ export function userSignupError(error: any) {
   };
 }
 
-export function userSignin() {
+export function userSignin(payload: any) {
   return ActionDispatcher.getInstance().dispatch({
     type: USER_SIGNIN,
+    payload,
   });
 }
 
 export function userSigninSuccess(response: any) {
+  StorageManager.set('authorized', 'true');
+  StorageManager.set('currentUser', response);
   return {
     type: USER_SIGNIN_SUCCESS,
     response,
@@ -45,6 +52,26 @@ export function userSigninSuccess(response: any) {
 export function userSigninError(error: any) {
   return {
     type: USER_SIGNIN_ERROR,
+    error,
+  };
+}
+
+export function userSessionFetch() {
+  return ActionDispatcher.getInstance().dispatch({
+    type: USER_SESSION_FETCH,
+  });
+}
+
+export function userSessionFetchSuccess(response: any) {
+  return {
+    type: USER_SESSION_FETCH_SUCCESS,
+    response,
+  };
+}
+
+export function userSessionFetchError(error: any) {
+  return {
+    type: USER_SESSION_FETCH_ERROR,
     error,
   };
 }

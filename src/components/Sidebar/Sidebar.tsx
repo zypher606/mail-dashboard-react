@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem, { ListItemProps } from '@material-ui/core/ListItem';
@@ -18,6 +18,7 @@ import Categories from './Categories';
 import Labels from './Labels';
 import { Button } from '@material-ui/core';
 import { useStyles } from './styles';
+import { ComposeEmail } from '..';
 
 
 const categories = [
@@ -86,22 +87,34 @@ const labels = [
 //   return <ListItem button component="a" {...props} />;
 // }
 
-export const Sidebar = () => {
+interface ISidebar {
+  handleComposeMail: any,
+  unreadCount: number,
+}
 
+export const Sidebar = ({
+  handleComposeMail,
+  unreadCount,
+}: ISidebar) => {
+
+  
   const classes = useStyles();
   
-
   return (
-    <div className={classes.sidebarContainer}>
-      <div className={classes.composeMailButtonContainer}>
-        <Button className={classes.composeMailButton} variant="contained" color="secondary" >Compose Mail</Button>
+    <div>
+      <div className={classes.sidebarContainer}>
+        <div className={classes.composeMailButtonContainer}>
+          <Button onClick={handleComposeMail} className={classes.composeMailButton} variant="contained" color="secondary" >Compose Mail</Button>
+        </div>
+        <br/>
+        <Folders unreadCount={unreadCount} />
+        <br/>
+        <Categories categories={categories} />
+        <br/>
+        <Labels labels={labels} />
+      
       </div>
-      <Folders />
-      <br/>
-      <Categories categories={categories} />
-      <br/>
-      <Labels labels={labels} />
-     
+      
     </div>
   )
 }

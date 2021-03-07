@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Avatar,
   Button, Card,
@@ -7,19 +7,31 @@ import {
   CardHeader,
   Container,
   Grid,
-  InputAdornment, TextField
+  InputAdornment, Snackbar, TextField
 } from "@material-ui/core";
 import { MailOutline, LockOpen, Face as FaceIcon } from "@material-ui/icons";
 import { useStyles } from "./styles";
 import { userSignup } from "../../stores/actions";
+import { useHistory } from "react-router-dom";
+import { Routes } from "../../appRoutes/RouteMappings";
+import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
+import { connect } from '../../stores';
 
-export const RegisterScreen = () => {
+function Alert(props: AlertProps) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
+export const RegisterScreen = connect()(({user}: any) => {
 
   const classes = useStyles();
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [openRegistrationSuccess, setOpenRegistrationSuccess] = useState(false);
+  const [openRegistrationError, setOpenRegistrationError] = useState(false);
+
+  const history = useHistory();
 
   const handleValidation = () => {
     return validateEmail() && password.length > 4 && validateName();
@@ -31,7 +43,6 @@ export const RegisterScreen = () => {
   };
 
   const validateName = () => {
-    // const regex = /^[a-zA-Z]+ [a-zA-Z]+$/;
     return name.length > 0 && /^[a-zA-Z]+ [a-zA-Z]+$/i.test(name);
   }
 
@@ -42,13 +53,29 @@ export const RegisterScreen = () => {
   };
 
   const handleSubmit = () => {
-
     userSignup({name, email, password});
-    console.log(`Send ${email.toLowerCase()} && ${password}`);
+    
   };
 
-  
+  useEffect(() => {
 
+    if (user && user.newUser) {
+      setOpenRegistrationSuccess(true);
+      setTimeout(() => history.push(Routes.LOGIN), 2000);
+      // history.push(Routes.LOGIN);
+      return;
+    }
+
+    if (user && user.error) {
+      setOpenRegistrationError(true);
+      return;
+    }
+   
+  }, [user])
+
+  const handleNavigationToLogin = () => {
+    history.push(Routes.LOGIN);
+  }
  
   return (
     <div className={classes.container}>
@@ -124,11 +151,15 @@ export const RegisterScreen = () => {
                 />
               </CardContent>
               <CardActions className={classes.action}>
+              <Button
+                  className={classes.loginLinkButton}
+                  onClick={handleNavigationToLogin}
+                >Already Registered?</Button>
                 <Button
                   onClick={handleSubmit}
                   disabled={!handleValidation()}
                   color="secondary"
-                  className={classes.button}
+                  className={classes.registerButton}
                   variant="contained">
                   Register
                 </Button>
@@ -137,6 +168,18 @@ export const RegisterScreen = () => {
           </Grid>
         </Grid>
       </Container>
+
+      <Snackbar open={openRegistrationSuccess} autoHideDuration={6000} onClose={() => setOpenRegistrationSuccess(false)}>
+        <Alert onClose={() => setOpenRegistrationSuccess(false)} severity="success">
+          User registered successfully! Please login.
+        </Alert>
+      </Snackbar>
+
+      <Snackbar open={openRegistrationError} autoHideDuration={6000} onClose={() => setOpenRegistrationError(false)}>
+        <Alert onClose={() => setOpenRegistrationError(false)} severity="error">
+          User already registered!
+        </Alert>
+      </Snackbar>
     </div>
   );
-}
+})

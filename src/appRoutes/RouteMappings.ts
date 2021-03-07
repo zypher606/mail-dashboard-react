@@ -17,33 +17,33 @@ export const Routes = {
 export interface IRoute {
   path: string;
   component: any;
-  isUserAuthenticated: boolean;
+  isProtected: boolean;
 }
 
 export const RouteMappings: IRoute[] = [
   {
     path: Routes.DEFAULT,
     component: LoginScreen,
-    isUserAuthenticated: false,
+    isProtected: false,
   },
   {
     path: Routes.LOGIN,
     component: LoginScreen,
-    isUserAuthenticated: false,
+    isProtected: false,
   },
   {
     path: Routes.REGISTER,
     component: RegisterScreen,
-    isUserAuthenticated: false,
+    isProtected: false,
   },
   {
     path: Routes.MAILBOX,
     component: MailboxScreen,
-    isUserAuthenticated: true,
+    isProtected: true,
   },
   {
     path: Routes.MAILBOX_THREAD(":thread_id"),
     component: MailThreadScreen,
-    isUserAuthenticated: true,
+    isProtected: true,
   },
 ]

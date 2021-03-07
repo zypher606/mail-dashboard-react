@@ -1,6 +1,7 @@
 import { StorageManager } from "../utilities";
 import { v4 as uuidv4 } from 'uuid';
 import { hashCode } from '../utilities';
+import { Session } from "inspector";
 
 const USER_STORAGE_KEY = 'USER_COLLECTION';
 
@@ -61,6 +62,12 @@ class User {
     }
     return userRestData
   };
+
+  fetchCurrentSession = () => {
+    const user = StorageManager.get('currentUser');
+    if (user) return user;
+    throw new Error('Session not found or expired!')
+  }
 }
 
 const userInstance = User.getInstance();

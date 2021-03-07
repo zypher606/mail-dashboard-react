@@ -9,7 +9,7 @@ export const useStyles = makeStyles((theme: Theme) =>
 
     },
     sidebarContainer: {
-      width: '270px',
+      width: '100%',
     },
     customChip: {
       color: '#676a6d',

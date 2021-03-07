@@ -3,11 +3,20 @@ import { StorageManager } from "../utilities";
 
 export const withAuth = (AppComponent: any) => {
   return class AuthWrapper extends Component<any, any> {
-    state = {
-      authenticated: false,
-      loading: true,
-      userNameStatus: false,
-    };
+
+    constructor(props: any) {
+      super(props);
+
+      const authorized = StorageManager.get('authorized');
+
+      this.state = {
+        authenticated: authorized === 'true',
+        loading: true,
+        userNameStatus: false,
+      };
+      
+      
+    }
 
     setUserData = (user: any) => {
       
@@ -33,10 +42,6 @@ export const withAuth = (AppComponent: any) => {
       });
 
     componentDidMount() {
-
-      const authorized = StorageManager.get('authorized');
-      if (authorized) return this.onAuthSuccess();
-      else return this.onAuthFailed();
     }
 
     render(): JSX.Element {

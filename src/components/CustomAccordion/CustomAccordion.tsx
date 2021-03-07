@@ -64,24 +64,25 @@ const AccordionDetails = withStyles((theme) => ({
 
 interface ICustomAccordion {
   openDefault: boolean;
+  fixed?: boolean;
   heading: any;
   body: any;
 }
 
 export const CustomAccordion = ({
   openDefault = false,
+  fixed = false,
   heading,
   body,
+  
 }: ICustomAccordion) => {
 
   const [expanded, setExpanded] = useState<boolean>(openDefault);
   const classes = useStyles();
 
   const toggleExpanded = () => {
-    try {
-      setExpanded(!expanded);
-    } catch (error) {
-    }
+    if (fixed) return;
+    setExpanded(!expanded);
   }
 
   return (

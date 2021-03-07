@@ -11,6 +11,8 @@ import CommentIcon from '@material-ui/icons/Comment';
 import { Grid } from '@material-ui/core';
 import { Badge } from '../../../components';
 import AttachmentIcon from '@material-ui/icons/Attachment';
+import { useHistory } from 'react-router-dom';
+import { Routes } from '../../../appRoutes/RouteMappings';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -22,9 +24,10 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 
-export default function EmailList() {
+export default function EmailList({emails}: any) {
   const classes = useStyles();
   const [checked, setChecked] = React.useState([0]);
+  const history = useHistory();
 
   const handleToggle = (value: number) => () => {
     const currentIndex = checked.indexOf(value);
@@ -39,34 +42,41 @@ export default function EmailList() {
     setChecked(newChecked);
   };
 
+  const handleMailOpen = (thread_id: string) => {
+    history.push(Routes.MAILBOX_THREAD(thread_id));
+  }
+
   return (
     <List className={classes.root}>
-      {[0, 1, 2, 3].map((value) => {
-        const labelId = `checkbox-list-label-${value}`;
+      {emails.map(({from, subject, body, id, is_read, thread_id}: any) => {
+        const labelId = `checkbox-list-label-${id}`;
 
         return (
-          <ListItem key={value} role={undefined} dense button onClick={handleToggle(value)}>
+          <ListItem key={id} role={undefined} dense button onClick={() => handleMailOpen(thread_id)}>
             <ListItemIcon>
               <Checkbox
                 edge="start"
-                checked={checked.indexOf(value) !== -1}
+                checked={false}
                 tabIndex={-1}
                 disableRipple
                 inputProps={{ 'aria-labelledby': labelId }}
               />
             </ListItemIcon>
             <Grid container spacing={1}>
-              <Grid item xs={2}>
-                <ListItemText id={labelId} primary={`Line ${value + 1}`} />
+              <Grid item xs={5}>
+                <ListItemText id={labelId} primary={from} />
 
               </Grid>
-              <Grid item xs={2}>
+              <Grid item xs={1}>
                 <ListItemText>
-                  <Badge color={'#ee524d'}>Hello</Badge>
+                  {
+                    is_read !== true &&
+                    <Badge color={'#ee524d'}>New</Badge>
+                  }
                 </ListItemText>
               </Grid>
-              <Grid item xs={5}>
-                <ListItemText id={labelId} primary="Email details in here" />
+              <Grid item xs={3}>
+                <ListItemText id={labelId} primary={body} />
               </Grid>
               <Grid item xs={1}>
                 <ListItemText id={labelId} primary={<AttachmentIcon/>} />
