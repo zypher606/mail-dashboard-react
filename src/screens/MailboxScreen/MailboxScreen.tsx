@@ -16,14 +16,17 @@ import IconButton from '@material-ui/core/IconButton';
 import EmailList from './components/EmailList';
 import { useStyles } from './styles';
 import { connect } from '../../stores';
+import { emailFetchAll } from "../../stores/actions";
+import { userSessionFetch } from "../../stores/actions";
 import './mailboxScreen.scss';
 
 interface IMailboxScreen {
   user: any;
+  email: any;
   history: any;
 }
 
-export const MailboxScreen = connect()(({user, history}: IMailboxScreen) => {
+export const MailboxScreen = connect()(({user, email, history}: IMailboxScreen) => {
 
   const classes = useStyles();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -35,12 +38,20 @@ export const MailboxScreen = connect()(({user, history}: IMailboxScreen) => {
   }
 
   useEffect(() => {
-    console.log("=========>",user);
+    console.log("=========>xxxx", email);
+    if (user?.profile?.email) {
+      // emailFetchAll(user.profile.email)
+    }
   }, [user])
+
+  useEffect(() => {
+    userSessionFetch();
+    emailFetchAll();
+  }, [])
   
   return (
     <div className="dashboard-container">
-      <Navigation profile={user?.profile} handleDrawerToggle={handleDrawerStateChange}/>
+      <Navigation unreadCount={email.unreadCount} profile={user?.profile} handleDrawerToggle={handleDrawerStateChange}/>
 
       <Container
         className={clsx(classes.container, {
@@ -112,7 +123,7 @@ export const MailboxScreen = connect()(({user, history}: IMailboxScreen) => {
                     </IconButton>
                   </div>
                   <br/>
-                  <EmailList />
+                  <EmailList emails={email.emails || []} />
               </Container>
             </Paper>
           </Grid>
@@ -120,7 +131,7 @@ export const MailboxScreen = connect()(({user, history}: IMailboxScreen) => {
         </Grid>
       </Container>
 
-      <ComposeEmail open={isComposeEmailDialogOpen} handleClose={() => setIsComposeEmailDialogOpen(false)} />
+      <ComposeEmail from={user?.profile?.email} open={isComposeEmailDialogOpen} handleClose={() => setIsComposeEmailDialogOpen(false)} />
 
     </div>
   )

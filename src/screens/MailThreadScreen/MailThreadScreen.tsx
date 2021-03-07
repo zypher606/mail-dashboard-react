@@ -55,7 +55,7 @@ export const MailThreadScreen = () => {
           
         </Grid>
       </Container>
-      <ComposeEmail open={isComposeEmailDialogOpen} handleClose={() => setIsComposeEmailDialogOpen(false)} />
+      <ComposeEmail from={''} open={isComposeEmailDialogOpen} handleClose={() => setIsComposeEmailDialogOpen(false)} />
     </div>
   )
 }

@@ -31,6 +31,7 @@ const resolveMapStateToProps = (mapFn: any) => {
   return (state: any) => {
     const defaultMappedState = {
       user: state.user,
+      email: state.email,
     };
     return { ...defaultMappedState, ...(mapFn && mapFn(state)) };
   };

@@ -4,11 +4,13 @@ import { Header, SideDrawer } from '../';
 interface INavigation {
   handleDrawerToggle: (state: boolean) => void;
   profile: any,
+  unreadCount: number;
 }
 
 export const Navigation = ({
   handleDrawerToggle,
   profile,
+  unreadCount,
 }: INavigation) => {
   
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -20,7 +22,7 @@ export const Navigation = ({
   }
   return (
     <div>
-      <Header isDrawerOpen={isDrawerOpen} handleDrawerToggle={toggleDrawer} />
+      <Header unreadCount={unreadCount} isDrawerOpen={isDrawerOpen} handleDrawerToggle={toggleDrawer} />
       <SideDrawer profile={profile} isDrawerOpen={isDrawerOpen} />
     </div>
   )

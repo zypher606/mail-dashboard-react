@@ -2,7 +2,6 @@ import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { Routes } from './RouteMappings';
 import { StorageManager } from "../utilities";
-import { userSessionFetch } from "../stores/actions";
 
 export const ProtectedRoute = ({
   component: Component,
@@ -12,10 +11,6 @@ export const ProtectedRoute = ({
 
   const authorized = StorageManager.get('authorized');
   const authenticated = authorized === 'true';
-
-  if (authenticated) {
-    userSessionFetch();
-  }
 
   return (
     <Route

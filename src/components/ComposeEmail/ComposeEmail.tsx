@@ -11,6 +11,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import { IconButton, InputAdornment, TextareaAutosize, TextField } from '@material-ui/core';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import { MailOutline, LockOpen, Send as SendIcon } from "@material-ui/icons";
+import { emailAdd } from "../../stores/actions";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -33,18 +34,27 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface IComposeEmail {
   open: boolean;
+  from: string;
   handleClose: (...args: any) => void;
 }
 
 export const ComposeEmail = ({
   open,
+  from,
   handleClose,
 }: IComposeEmail) => {
   const [scroll, setScroll] = useState<DialogProps['scroll']>('paper');
+  const [emailTo, setEmailTo] = useState('');
+  const [emailSubject, setEmailSubject] = useState('');
+  const [emailBody, setEmailBody] = useState('');
 
   const classes = useStyles();
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
+  const handleSend = () => {
+    emailAdd({ to: emailTo, from, subject: emailSubject, body: emailBody });
+  }
 
   return (
     <div>
@@ -64,9 +74,9 @@ export const ComposeEmail = ({
         <DialogContent>
           <TextField
             required
-            id="email"
-            // value={email}
-            // onChange={({target: { value }}: any) => setEmail(value)}
+            id="email_to"
+            value={emailTo}
+            onChange={({target: { value }}: any) => setEmailTo(value)}
             // onKeyDown={handleKeyPress}
             // error={!validateEmail()}
             margin="normal"
@@ -81,9 +91,9 @@ export const ComposeEmail = ({
           />
           <TextField
             required
-            id="email"
-            // value={email}
-            // onChange={({target: { value }}: any) => setEmail(value)}
+            id="email_subject"
+            value={emailSubject}
+            onChange={({target: { value }}: any) => setEmailSubject(value)}
             // onKeyDown={handleKeyPress}
             // error={!validateEmail()}
             margin="normal"
@@ -99,6 +109,8 @@ export const ComposeEmail = ({
           <TextField
             fullWidth
             multiline
+            value={emailBody}
+            onChange={({target: { value }}: any) => setEmailBody(value)}
             rows={5}
             variant="filled"
             placeholder="Your email body"
@@ -107,7 +119,7 @@ export const ComposeEmail = ({
         <DialogActions>
          
           <Button 
-            onClick={handleClose} 
+            onClick={handleSend} 
             color="secondary"
             variant="contained"
             className={classes.sendButton}

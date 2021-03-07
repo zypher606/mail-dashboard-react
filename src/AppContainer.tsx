@@ -9,6 +9,7 @@ interface IAppContainerProps {
   authenticated: boolean;
   history: any;
   user: any;
+  email: any,
   location: any;
 }
 
@@ -18,6 +19,7 @@ export const AppContainer = withRouter<any, any>(
       children,
       history,
       user,
+      email,
       location,
     } = props;
 
