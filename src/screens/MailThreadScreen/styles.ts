@@ -8,8 +8,8 @@ export const useStyles = makeStyles((theme: any) => ({
   container: {
     marginTop: '64px',
     paddingTop: '18px',
-    marginLeft: '74px',
-    width: `calc(100% - 74px)`,
+    marginLeft: '73px',
+    width: `calc(100% - 73px)`,
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,

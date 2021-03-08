@@ -31,16 +31,18 @@ import DescriptionIcon from '@material-ui/icons/Description';
 import ComputerIcon from '@material-ui/icons/Computer';
 import { useStyles } from './styles';
 import userAvatarIcon from '../../assets/images/avatar-user-svg.svg';
-import { Avatar } from '@material-ui/core';
+import { Avatar, useMediaQuery } from '@material-ui/core';
 
 interface ISideDrawer {
   isDrawerOpen: boolean;
   profile: any;
+  handleDrawerClose?: any;
 }
 
 export const SideDrawer = ({
   isDrawerOpen,
   profile,
+  handleDrawerClose,
 }: ISideDrawer) => {
   const classes = useStyles();
   const theme = useTheme();
@@ -50,21 +52,8 @@ export const SideDrawer = ({
     setOpenMailboxTab(!openMailboxTab);
   }
 
-  return (
-    <Drawer
-      variant="permanent"
-      className={clsx(classes.drawer, {
-        [classes.drawerOpen]: isDrawerOpen,
-        [classes.drawerClose]: !isDrawerOpen,
-      })}
-      classes={{
-        paper: clsx({
-          [classes.drawerOpen]: isDrawerOpen,
-          [classes.drawerClose]: !isDrawerOpen,
-          [classes.paper]: true,
-        } ),
-      }}
-    >
+  const drawerContent = (
+    <>
       <div className={classes.toolbar}>
         <Avatar alt="Ashim Raj" src={userAvatarIcon} />
         <div className={classes.toolbarUsername}>
@@ -152,7 +141,49 @@ export const SideDrawer = ({
           <ListItemText primary="App Views" />
         </ListItem>
       </List>
-      
-    </Drawer>
+    </>
+  );
+
+  const matches = !useMediaQuery(theme.breakpoints.up('sm'));
+
+  return (
+    <div>
+      {
+        matches ? (
+          <Drawer
+            variant="temporary"
+            open={isDrawerOpen}
+            className={classes.drawer}
+            classes={{
+              paper: clsx({
+                [classes.paper]: true,
+              } ),
+            }}
+            onClose={handleDrawerClose}
+          >
+            {drawerContent}
+          </Drawer>
+        ) : (
+          <Drawer
+            variant="permanent"
+            className={clsx(classes.drawer, {
+              [classes.drawerOpen]: isDrawerOpen,
+              [classes.drawerClose]: !isDrawerOpen,
+            })}
+            classes={{
+              paper: clsx({
+                [classes.drawerOpen]: isDrawerOpen,
+                [classes.drawerClose]: !isDrawerOpen,
+                [classes.paper]: true,
+              } ),
+            }}
+          >
+            {drawerContent}
+          </Drawer>
+        )
+        
+      }
+    </div>
+    
   )
 }

@@ -14,7 +14,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import { Button } from '@material-ui/core';
+import { Button, useMediaQuery, useTheme } from '@material-ui/core';
 import { useStyles } from './styles';
 import { sideDrawerWidth as drawerWidth } from '../../styles';
 import { StorageManager } from '../../utilities';
@@ -35,6 +35,7 @@ export const Header = ({
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const history = useHistory();
+  const theme = useTheme();
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -61,6 +62,8 @@ export const Header = ({
     StorageManager.remove('currentUser');
     history.push(Routes.LOGIN);
   }
+
+  const disableSlider = !useMediaQuery(theme.breakpoints.up('sm'));
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -124,15 +127,15 @@ export const Header = ({
       <AppBar 
         position="fixed"
         className={clsx(classes.appBar, {
-          [classes.appBarShift]: isDrawerOpen,
+          [classes.appBarShift]: isDrawerOpen && !disableSlider,
+          [classes.disableAppbarSlide]: disableSlider,
         })}
         style={
-          isDrawerOpen ? {
+          isDrawerOpen && !disableSlider ? {
             marginLeft: drawerWidth,
             width: `calc(100% - ${drawerWidth}px)`,
           } : {}
         }
-
       >
         <Toolbar>
           

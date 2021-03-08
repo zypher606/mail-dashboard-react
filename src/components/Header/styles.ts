@@ -6,7 +6,7 @@ export const useStyles = makeStyles((theme: any) => ({
   },
   appBar: {
     marginLeft: theme.drawerWidth,
-    width: `calc(100% - 74px)`,
+    width: `calc(100% - 73px)`,
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
@@ -20,6 +20,10 @@ export const useStyles = makeStyles((theme: any) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
+  },
+  disableAppbarSlide: {
+    width: '100%',
+    marginLeft: '0px',
   },
   menuButton: {
     marginRight: theme.spacing(2),
