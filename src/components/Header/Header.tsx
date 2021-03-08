@@ -94,30 +94,40 @@ export const Header = ({
     >
       <MenuItem>
         <IconButton aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={unreadCount} color="secondary">
-            <MailIcon />
+          <Badge 
+            badgeContent={
+              <span className={classes.badgeContent}>{unreadCount}</span>
+            } 
+            color="secondary"
+          >
+            <MailIcon className={classes.navButtons} />
           </Badge>
         </IconButton>
         <p>Messages</p>
       </MenuItem>
       <MenuItem>
         <IconButton aria-label="show 11 new notifications" color="inherit">
-          <Badge badgeContent={11} color="secondary">
-            <NotificationsIcon />
+          <Badge 
+            badgeContent={
+              <span className={classes.badgeContent}>{12}</span>
+            } 
+            color="secondary"
+          >
+            <NotificationsIcon className={classes.navButtons} />
           </Badge>
         </IconButton>
         <p>Notifications</p>
       </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
+      <MenuItem onClick={handleLogout}>
         <IconButton
-          aria-label="account of current user"
+          aria-label="logout"
           aria-controls="primary-search-account-menu"
           aria-haspopup="true"
           color="inherit"
         >
           <ExitToAppIcon />
         </IconButton>
-        <p>Profile</p>
+        <p>Logout</p>
       </MenuItem>
     </Menu>
   );

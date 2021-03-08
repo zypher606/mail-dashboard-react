@@ -85,7 +85,7 @@ export const RegisterScreen = connect()(({user}: any) => {
           spacing={0}
           alignItems="center"
           justify="center"
-          style={{ minHeight: "90vh" }}>
+        >
           <Grid item xs={10} sm={4}>
             <Card className={classes.card}>
               <CardHeader
