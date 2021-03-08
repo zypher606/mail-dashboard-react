@@ -26,5 +26,6 @@ export const useStyles = makeStyles((theme: Theme) => ({
   },
   avatar: {
     backgroundColor: theme.palette.secondary.main,
-  }
+  },
+  
 }));

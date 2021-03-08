@@ -17,8 +17,10 @@ import EmailThread from './components/EmailThread';
 import { useStyles } from './styles';
 import { emailFetchAll, userSessionFetch, emailFetchThread } from "../../stores/actions";
 import { connect } from '../../stores';
-import './mailThreadScreen.scss';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 import { useParams } from 'react-router-dom';
+import './mailThreadScreen.scss';
 
 interface IMailThreadScreen {
   user: any;
@@ -75,7 +77,17 @@ export const MailThreadScreen = connect()(({user, email}: IMailThreadScreen) => 
           </Grid>
           
         </Grid>
+
+        <Hidden only={['lg']}>
+          <Fab className={classes.composeFabBtn} color="secondary" aria-label="add">
+            <AddIcon onClick={() => setIsComposeEmailDialogOpen(true)} />
+          </Fab>
+        </Hidden>
+        
       </Container>
+
+      
+
       <ComposeEmail from={''} open={isComposeEmailDialogOpen} handleClose={() => setIsComposeEmailDialogOpen(false)} />
     </div>
   )

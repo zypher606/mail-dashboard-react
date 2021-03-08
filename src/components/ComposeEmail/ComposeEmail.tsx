@@ -8,10 +8,11 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
-import { IconButton, InputAdornment, TextareaAutosize, TextField } from '@material-ui/core';
+import { IconButton, InputAdornment, Snackbar, TextareaAutosize, TextField } from '@material-ui/core';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import { MailOutline, LockOpen, Send as SendIcon } from "@material-ui/icons";
 import { emailAdd } from "../../stores/actions";
+import Alert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -47,6 +48,7 @@ export const ComposeEmail = ({
   const [emailTo, setEmailTo] = useState('');
   const [emailSubject, setEmailSubject] = useState('');
   const [emailBody, setEmailBody] = useState('');
+  const [openEmailSentSuccess, setOpenEmailSentSuccess] = useState(false);
 
   const classes = useStyles();
   const theme = useTheme();
@@ -54,7 +56,14 @@ export const ComposeEmail = ({
 
   const handleSend = () => {
     emailAdd({ to: emailTo, from, subject: emailSubject, body: emailBody });
+    setOpenEmailSentSuccess(true);
+    handleClose();
   }
+
+  const validateEmail = () => {
+    if (emailTo.length < 1) return false;
+    return /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(emailTo);
+  };
 
   return (
     <div>
@@ -120,6 +129,7 @@ export const ComposeEmail = ({
          
           <Button 
             onClick={handleSend} 
+            disabled={!validateEmail() || emailSubject === '' || emailBody === ''}
             color="secondary"
             variant="contained"
             className={classes.sendButton}
@@ -128,6 +138,12 @@ export const ComposeEmail = ({
           </Button>
         </DialogActions>
       </Dialog>
+
+      <Snackbar open={openEmailSentSuccess} autoHideDuration={6000} onClose={() => setOpenEmailSentSuccess(false)}>
+        <Alert onClose={() => setOpenEmailSentSuccess(false)} severity="success">
+          Email sent!
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

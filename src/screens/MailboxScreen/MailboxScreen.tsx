@@ -17,6 +17,8 @@ import EmailList from './components/EmailList';
 import { useStyles } from './styles';
 import { connect } from '../../stores';
 import { emailFetchAll, userSessionFetch } from "../../stores/actions";
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 import './mailboxScreen.scss';
 
 interface IMailboxScreen {
@@ -139,6 +141,12 @@ export const MailboxScreen = connect()(({user, email, history}: IMailboxScreen) 
           </Grid>
           
         </Grid>
+
+        <Hidden only={['lg']}>
+          <Fab className={classes.composeFabBtn} color="secondary" aria-label="add">
+            <AddIcon onClick={() => setIsComposeEmailDialogOpen(true)} />
+          </Fab>
+        </Hidden>
       </Container>
 
       <ComposeEmail from={user?.profile?.email} open={isComposeEmailDialogOpen} handleClose={() => setIsComposeEmailDialogOpen(false)} />

@@ -80,7 +80,7 @@ export const LoginScreen = connect()(({ user, history}: ILoginScreen) => {
                   value={email}
                   onChange={({target: { value }}: any) => setEmail(value)}
                   onKeyDown={handleKeyPress}
-                  error={!validateEmail()}
+                  error={!validateEmail() && email.length !== 0}
                   margin="normal"
                   fullWidth
                   InputProps={{

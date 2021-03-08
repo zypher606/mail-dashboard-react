@@ -96,5 +96,11 @@ export const useStyles = makeStyles((theme: any) => ({
   },
   sidebarContainer: {
 
+  },
+  composeFabBtn: {
+    position: 'fixed',
+    bottom: '5px',
+    right: '5px',
+    color: '#fff'
   }
 }));

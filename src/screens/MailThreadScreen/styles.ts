@@ -113,6 +113,12 @@ export const useStyles = makeStyles((theme: any) => ({
   },
   emailThreadDate : {
 
+  },
+  composeFabBtn: {
+    position: 'fixed',
+    bottom: '5px',
+    right: '5px',
+    color: '#fff'
   }
 
 }));
