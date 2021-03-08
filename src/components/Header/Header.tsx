@@ -18,7 +18,7 @@ import { Button, useMediaQuery, useTheme } from '@material-ui/core';
 import { useStyles } from './styles';
 import { sideDrawerWidth as drawerWidth } from '../../styles';
 import { StorageManager } from '../../utilities';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { Routes } from '../../appRoutes/RouteMappings';
 
 interface IHeader {
@@ -35,6 +35,7 @@ export const Header = ({
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const history = useHistory();
+  const location = useLocation();
   const theme = useTheme();
 
   const isMenuOpen = Boolean(anchorEl);
@@ -60,7 +61,7 @@ export const Header = ({
   const handleLogout = () => {
     StorageManager.remove('authorized');
     StorageManager.remove('currentUser');
-    history.push(Routes.LOGIN);
+    window.location.reload(); /// Hard fixing a bug, will take a look at it later
   }
 
   const disableSlider = !useMediaQuery(theme.breakpoints.up('sm'));
