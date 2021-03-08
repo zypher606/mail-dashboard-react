@@ -24,6 +24,10 @@ export const useStyles = makeStyles((theme: any) => ({
       duration: theme.transitions.duration.enteringScreen,
     }),
   },
+  disableContainerShift: {
+    marginLeft: '0px',
+    width: '100%',
+  },
   search: {
     position: 'relative',
     float: 'right',

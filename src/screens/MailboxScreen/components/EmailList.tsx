@@ -1,5 +1,5 @@
 import React from 'react';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { createStyles, makeStyles, Theme, useTheme } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -8,7 +8,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import CommentIcon from '@material-ui/icons/Comment';
-import { Grid } from '@material-ui/core';
+import { Avatar, Grid, useMediaQuery } from '@material-ui/core';
 import { Badge } from '../../../components';
 import AttachmentIcon from '@material-ui/icons/Attachment';
 import { useHistory } from 'react-router-dom';
@@ -28,6 +28,7 @@ export default function EmailList({emails}: any) {
   const classes = useStyles();
   const [checked, setChecked] = React.useState([0]);
   const history = useHistory();
+  const theme = useTheme();
 
   const handleToggle = (value: number) => () => {
     const currentIndex = checked.indexOf(value);
@@ -46,6 +47,9 @@ export default function EmailList({emails}: any) {
     history.push(Routes.MAILBOX_THREAD(thread_id));
   }
 
+  const isMobile = !useMediaQuery(theme.breakpoints.up('sm'));
+
+
   return (
     <List className={classes.root}>
       {emails.map(({from, subject, body, id, is_read, thread_id}: any) => {
@@ -63,11 +67,17 @@ export default function EmailList({emails}: any) {
               />
             </ListItemIcon>
             <Grid container spacing={1}>
-              <Grid item xs={5}>
-                <ListItemText id={labelId} primary={from} />
-
+              <Grid item xs={isMobile ? 4 : 5}>
+                {
+                  isMobile ? 
+                    <Avatar>
+                      {from ? from[0].toUpperCase() : ''}
+                    </Avatar> :
+                    <ListItemText id={labelId} primary={from} />
+                }   
+                
               </Grid>
-              <Grid item xs={1}>
+              <Grid item xs={isMobile ? 4 : 1}>
                 <ListItemText>
                   {
                     is_read !== true &&
@@ -75,13 +85,20 @@ export default function EmailList({emails}: any) {
                   }
                 </ListItemText>
               </Grid>
-              <Grid item xs={3}>
-                <ListItemText id={labelId} primary={body} />
-              </Grid>
-              <Grid item xs={1}>
-                <ListItemText id={labelId} primary={<AttachmentIcon/>} />
+              {
+                !isMobile &&
+                <Grid item xs={3}>
+                  <ListItemText id={labelId} primary={body} />
+                </Grid>
+              }
+              {
+                !isMobile && 
+                <Grid item xs={1}>
+                  <ListItemText id={labelId} primary={<AttachmentIcon/>} />
 
-              </Grid>
+                </Grid>
+              }
+              
               <Grid item xs={2}>
                 <ListItemSecondaryAction>
                   6:10 am
