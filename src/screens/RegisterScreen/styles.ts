@@ -8,7 +8,8 @@ export const useStyles = makeStyles((theme: Theme) => ({
     minHeight: '100vh',
   },
   card: {
-    minWidth: 275
+    minWidth: 275,
+    marginTop: '10vh',
   },
   extendedIcon: {
     marginRight: theme.spacing(1),
@@ -25,5 +26,6 @@ export const useStyles = makeStyles((theme: Theme) => ({
   },
   avatar: {
     backgroundColor: theme.palette.secondary.main,
-  }
+  },
+  
 }));

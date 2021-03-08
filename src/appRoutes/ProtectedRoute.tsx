@@ -17,16 +17,17 @@ export const ProtectedRoute = ({
       {...routeProps}
       render={(props) =>
         authenticated === true ? (
-          isProtected === true ? (
-            <Component authenticated={authenticated} {...props} />
-          ): (
-            <Redirect
-              to={{
-                pathname: Routes.MAILBOX,
-                state: { from: props.location },
-              }}
-            />
-          )
+          // isProtected === true ? (
+          //   <Component authenticated={authenticated} {...props} />
+          // ): (
+          //   <Redirect
+          //     to={{
+          //       pathname: Routes.MAILBOX,
+          //       state: { from: props.location },
+          //     }}
+          //   />
+          // )
+          <Component authenticated={authenticated} {...props} />
         ) : (
           <Redirect
             to={{

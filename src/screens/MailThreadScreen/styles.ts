@@ -8,8 +8,8 @@ export const useStyles = makeStyles((theme: any) => ({
   container: {
     marginTop: '64px',
     paddingTop: '18px',
-    marginLeft: '74px',
-    width: `calc(100% - 74px)`,
+    marginLeft: '73px',
+    width: `calc(100% - 73px)`,
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
@@ -23,6 +23,10 @@ export const useStyles = makeStyles((theme: any) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
+  },
+  disableContainerShift: {
+    marginLeft: '0px',
+    width: '100%',
   },
   search: {
     position: 'relative',
@@ -109,6 +113,12 @@ export const useStyles = makeStyles((theme: any) => ({
   },
   emailThreadDate : {
 
+  },
+  composeFabBtn: {
+    position: 'fixed',
+    bottom: '5px',
+    right: '5px',
+    color: '#fff'
   }
 
 }));

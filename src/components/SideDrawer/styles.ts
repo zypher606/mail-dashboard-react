@@ -39,7 +39,7 @@ export const useStyles = makeStyles((theme: Theme) =>
         duration: theme.transitions.duration.leavingScreen,
       }),
       overflowX: 'hidden',
-      width: '74px',
+      width: '73px',
       [theme.breakpoints.up('sm')]: {
         width: theme.spacing(9) + 1,
       },

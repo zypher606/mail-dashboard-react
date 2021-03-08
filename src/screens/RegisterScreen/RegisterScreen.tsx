@@ -43,7 +43,7 @@ export const RegisterScreen = connect()(({user}: any) => {
   };
 
   const validateName = () => {
-    return name.length > 0 && /^[a-zA-Z]+ [a-zA-Z]+$/i.test(name);
+    return name.length > 0 && /^[a-zA-Z]+$/i.test(name);
   }
 
   const handleKeyPress = (e: any) => {
@@ -85,7 +85,7 @@ export const RegisterScreen = connect()(({user}: any) => {
           spacing={0}
           alignItems="center"
           justify="center"
-          style={{ minHeight: "90vh" }}>
+        >
           <Grid item xs={10} sm={4}>
             <Card className={classes.card}>
               <CardHeader
@@ -96,11 +96,11 @@ export const RegisterScreen = connect()(({user}: any) => {
                 <TextField
                   required
                   id="name"
-                  label="Full name"
+                  label="Your name"
                   value={name}
                   onChange={({target: { value }}: any) => setName(value)}
                   onKeyDown={handleKeyPress}
-                  error={!validateName()}
+                  error={!validateName() && name.length !== 0}
                   margin="normal"
                   fullWidth
                   InputProps={{
@@ -119,7 +119,7 @@ export const RegisterScreen = connect()(({user}: any) => {
                   value={email}
                   onChange={({target: { value }}: any) => setEmail(value)}
                   onKeyDown={handleKeyPress}
-                  error={!validateEmail()}
+                  error={!validateEmail() && email.length !== 0}
                   margin="normal"
                   fullWidth
                   InputProps={{

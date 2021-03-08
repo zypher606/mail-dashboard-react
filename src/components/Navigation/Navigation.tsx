@@ -23,7 +23,7 @@ export const Navigation = ({
   return (
     <div>
       <Header unreadCount={unreadCount} isDrawerOpen={isDrawerOpen} handleDrawerToggle={toggleDrawer} />
-      <SideDrawer profile={profile} isDrawerOpen={isDrawerOpen} />
+      <SideDrawer handleDrawerClose={toggleDrawer} profile={profile} isDrawerOpen={isDrawerOpen} />
     </div>
   )
 }

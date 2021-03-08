@@ -14,11 +14,11 @@ import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import { Button } from '@material-ui/core';
+import { Button, useMediaQuery, useTheme } from '@material-ui/core';
 import { useStyles } from './styles';
 import { sideDrawerWidth as drawerWidth } from '../../styles';
 import { StorageManager } from '../../utilities';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { Routes } from '../../appRoutes/RouteMappings';
 
 interface IHeader {
@@ -35,6 +35,8 @@ export const Header = ({
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const history = useHistory();
+  const location = useLocation();
+  const theme = useTheme();
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -59,8 +61,10 @@ export const Header = ({
   const handleLogout = () => {
     StorageManager.remove('authorized');
     StorageManager.remove('currentUser');
-    history.push(Routes.LOGIN);
+    window.location.reload(); /// Hard fixing a bug, will take a look at it later
   }
+
+  const disableSlider = !useMediaQuery(theme.breakpoints.up('sm'));
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -91,30 +95,40 @@ export const Header = ({
     >
       <MenuItem>
         <IconButton aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={unreadCount} color="secondary">
-            <MailIcon />
+          <Badge 
+            badgeContent={
+              <span className={classes.badgeContent}>{unreadCount}</span>
+            } 
+            color="secondary"
+          >
+            <MailIcon className={classes.navButtons} />
           </Badge>
         </IconButton>
         <p>Messages</p>
       </MenuItem>
       <MenuItem>
         <IconButton aria-label="show 11 new notifications" color="inherit">
-          <Badge badgeContent={11} color="secondary">
-            <NotificationsIcon />
+          <Badge 
+            badgeContent={
+              <span className={classes.badgeContent}>{12}</span>
+            } 
+            color="secondary"
+          >
+            <NotificationsIcon className={classes.navButtons} />
           </Badge>
         </IconButton>
         <p>Notifications</p>
       </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
+      <MenuItem onClick={handleLogout}>
         <IconButton
-          aria-label="account of current user"
+          aria-label="logout"
           aria-controls="primary-search-account-menu"
           aria-haspopup="true"
           color="inherit"
         >
           <ExitToAppIcon />
         </IconButton>
-        <p>Profile</p>
+        <p>Logout</p>
       </MenuItem>
     </Menu>
   );
@@ -124,15 +138,15 @@ export const Header = ({
       <AppBar 
         position="fixed"
         className={clsx(classes.appBar, {
-          [classes.appBarShift]: isDrawerOpen,
+          [classes.appBarShift]: isDrawerOpen && !disableSlider,
+          [classes.disableAppbarSlide]: disableSlider,
         })}
         style={
-          isDrawerOpen ? {
+          isDrawerOpen && !disableSlider ? {
             marginLeft: drawerWidth,
             width: `calc(100% - ${drawerWidth}px)`,
           } : {}
         }
-
       >
         <Toolbar>
           

@@ -64,7 +64,7 @@ export const LoginScreen = connect()(({ user, history}: ILoginScreen) => {
           spacing={0}
           alignItems="center"
           justify="center"
-          style={{ minHeight: "90vh" }}>
+          >
           <Grid item xs={10} sm={4}>
             <Card className={classes.card}>
               <CardHeader
@@ -80,7 +80,7 @@ export const LoginScreen = connect()(({ user, history}: ILoginScreen) => {
                   value={email}
                   onChange={({target: { value }}: any) => setEmail(value)}
                   onKeyDown={handleKeyPress}
-                  error={!validateEmail()}
+                  error={!validateEmail() && email.length !== 0}
                   margin="normal"
                   fullWidth
                   InputProps={{
@@ -115,7 +115,7 @@ export const LoginScreen = connect()(({ user, history}: ILoginScreen) => {
                 <Button
                   className={classes.registerLinkBtn}
                   onClick={handleNavigationToRegister}
-                >New User? Register here!</Button>
+                >New User?</Button>
                 <Button
                   onClick={handleSubmit}
                   disabled={!handleValidation()}
