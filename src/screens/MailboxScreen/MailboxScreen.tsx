@@ -75,7 +75,7 @@ export const MailboxScreen = connect()(({user, email, history}: IMailboxScreen) 
             <Paper>
               <Container className="inbox-container">
                 <div className="header-bar">
-                  <span className="inbox-container-header">Inbox (16)</span>
+                  <span className="inbox-container-header">Inbox ({email.emails ? email.emails.length : 0})</span>
 
                   <Hidden only={['sm', 'xs']}>
                     <Button variant="contained" color="secondary" className={classes.searchActionBtn}>Search</Button>

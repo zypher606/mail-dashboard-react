@@ -8,11 +8,14 @@ interface IEmail {
   id: string;
   from: string;
   to: string;
+  cc: string;
+  received_by?: string;
   thread_id: string;
   subject: string;
   body: string;
-  date_created: any;
   is_read: boolean;
+  is_deleted: boolean;
+  date_created: any;
 }
 
 class Email {
@@ -37,23 +40,34 @@ class Email {
     return StorageManager.set(EMAIL_STORAGE_KEY, collection);
   };
 
-  addEmail = (email: IEmail) => {
-    email.id = uuidv4();
-    if (!email.thread_id) {
-      email.thread_id = uuidv4();
+  addEmail = (payload: IEmail) => {
+    let receivers: string[] = payload.to.split(',');
+    if (payload.cc) {
+      receivers = [...receivers, ...payload.cc.split(',')]
     }
-    email.is_read = false;
 
     const emails: IEmail[] = this.getEmailCollection();
-    emails.push(email);
+    for (const receiver of receivers) {
+      const email = {...payload}
+      email.id = uuidv4();
+      if (!email.thread_id) {
+        email.thread_id = uuidv4();
+      }
+      email.is_read = false;
+      email.is_deleted = false;
+      email.received_by = receiver;
+      email.date_created = new Date();
+      emails.push(email);
+    }
     this.setEmailCollection(emails);
-    return email;
+    
+    return payload;
   }
 
   getEmailsOfCurrentUser = () => {
     const { email: email_id }: any = StorageManager.get('currentUser');
     const emails: IEmail[] = this.getEmailCollection();
-    const filteredEmails: IEmail[] = emails.filter(({to}) => to === email_id );
+    const filteredEmails: IEmail[] = emails.filter(({received_by, is_deleted}) => received_by === email_id && !is_deleted);
     return filteredEmails;
   }
 
@@ -83,6 +97,26 @@ class Email {
     const user = StorageManager.get('currentUser');
     if (user) return user;
     throw new Error('Session not found or expired!')
+  }
+
+  emailMarkRead = ({id}: any) => {
+    let emails: IEmail[] = this.getEmailCollection();
+    emails = emails.map((item: IEmail) => {
+      if (item.id === id) item.is_read = true;
+      return item;
+    })
+    this.setEmailCollection(emails);
+    return 'Successful!';
+  }
+
+  emailMarkDelete = (id: string) => {
+    let emails: IEmail[] = this.getEmailCollection();
+    emails = emails.map((item: IEmail) => {
+      if (item.id === id) item.is_deleted = true;
+      return item;
+    });
+    this.setEmailCollection(emails);
+    return 'Successful!';
   }
 }
 

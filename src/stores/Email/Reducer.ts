@@ -8,6 +8,7 @@ import {
   EMAIL_FETCH_THREAD,
   EMAIL_FETCH_THREAD_SUCCESS,
   EMAIL_FETCH_THREAD_ERROR,
+  EMAIL_MARK_READ,
 } from "./Types";
 
 interface IEmailState {

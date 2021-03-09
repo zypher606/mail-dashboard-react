@@ -13,6 +13,7 @@ import { Badge } from '../../../components';
 import AttachmentIcon from '@material-ui/icons/Attachment';
 import { useHistory } from 'react-router-dom';
 import { Routes } from '../../../appRoutes/RouteMappings';
+import { emailMarkRead } from "../../../stores/actions";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -43,7 +44,8 @@ export default function EmailList({emails}: any) {
     setChecked(newChecked);
   };
 
-  const handleMailOpen = (thread_id: string) => {
+  const handleMailOpen = (id: string, thread_id: string) => {
+    emailMarkRead({id});
     history.push(Routes.MAILBOX_THREAD(thread_id));
   }
 
@@ -56,7 +58,7 @@ export default function EmailList({emails}: any) {
         const labelId = `checkbox-list-label-${id}`;
 
         return (
-          <ListItem key={id} role={undefined} dense button onClick={() => handleMailOpen(thread_id)}>
+          <ListItem key={id} role={undefined} dense button onClick={() => handleMailOpen(id, thread_id)}>
             <ListItemIcon>
               <Checkbox
                 edge="start"
