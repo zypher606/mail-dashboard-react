@@ -77,6 +77,13 @@ export const useStyles = makeStyles((theme: any) => ({
     borderTopLeftRadius: '0px',
     borderBottomLeftRadius: '0px',
   },
+  replyActionBtn: {
+    marginTop: '25px',
+    marginBottom: '20px',
+    color: '#000',
+    borderTopLeftRadius: '0px',
+    borderBottomLeftRadius: '0px',
+  },
   iconButtons: {
     color: 'rgba(0, 0, 0, 0.87)',
     backgroundColor: '#e0e0e0',

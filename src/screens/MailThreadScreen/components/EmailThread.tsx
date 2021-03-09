@@ -1,18 +1,19 @@
-import { Avatar, Typography } from '@material-ui/core';
+import { Avatar, Button, Typography } from '@material-ui/core';
 import React from 'react';
 import { Accordion } from '../../../components';
 import { emailThread } from '../mock-data/emails';
 import { useStyles } from '../styles';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ReplyIcon from '@material-ui/icons/Reply';
 
-export default function EmailThread({ thread }: any) {
+export default function EmailThread({ thread, handleReply }: any) {
 
   const classes = useStyles();
 
   return (
     <div>
       {
-        thread.map(({id, from, to, cc, subject, body, date}: any, index: number) => (
+        thread.map(({id, from, to, cc, subject, body, date, thread_id}: any, index: number) => (
           <Accordion 
             key={index}
             openDefault={index === thread.length - 1}
@@ -44,10 +45,25 @@ export default function EmailThread({ thread }: any) {
               
             }
             body={
-              <Typography>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-            sit amet blandit leo lobortis eget. Lorem ipsum dolor sit amet, consectetur adipiscing
-              </Typography>
+              <div>
+                <Typography>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
+              sit amet blandit leo lobortis eget. Lorem ipsum dolor sit amet, consectetur adipiscing
+                
+                </Typography>
+
+                {
+                  index === thread.length - 1 &&
+                  <Button 
+                    variant="outlined" 
+                    startIcon={<ReplyIcon />} 
+                    className={classes.replyActionBtn}
+                    onClick={() => handleReply({thread_id, cc, to: from, subject})}
+                  >
+                    Reply
+                  </Button>
+                }
+              </div>
             }
           />
         ))

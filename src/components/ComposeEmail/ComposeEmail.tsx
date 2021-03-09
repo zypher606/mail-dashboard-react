@@ -1,4 +1,4 @@
-import React, { forwardRef, useRef, useState } from 'react';
+import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog, { DialogProps } from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -13,6 +13,7 @@ import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import { MailOutline, LockOpen, Send as SendIcon } from "@material-ui/icons";
 import { emailAdd } from "../../stores/actions";
 import Alert from '@material-ui/lab/Alert';
+import Chip from '@material-ui/core/Chip';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -36,17 +37,28 @@ const useStyles = makeStyles((theme: Theme) =>
 interface IComposeEmail {
   open: boolean;
   from: string;
+  to?: string;
+  cc?: string;
+  isReply?: boolean;
+  subject?: string;
+  thread_id?: string;
   handleClose: (...args: any) => void;
 }
 
 export const ComposeEmail = ({
   open,
   from,
+  to,
+  cc,
+  thread_id,
+  subject,
+  isReply = false,
   handleClose,
 }: IComposeEmail) => {
   const [scroll, setScroll] = useState<DialogProps['scroll']>('paper');
-  const [emailTo, setEmailTo] = useState('');
-  const [emailSubject, setEmailSubject] = useState('');
+  const [emailTo, setEmailTo] = useState(to ? to : '');
+  const [emailCc, setEmailCc] = useState(cc ? cc : '');
+  const [emailSubject, setEmailSubject] = useState(subject ? subject : '');
   const [emailBody, setEmailBody] = useState('');
   const [openEmailSentSuccess, setOpenEmailSentSuccess] = useState(false);
 
@@ -55,7 +67,11 @@ export const ComposeEmail = ({
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleSend = () => {
-    emailAdd({ to: emailTo, from, subject: emailSubject, body: emailBody });
+    if (isReply) {
+      emailAdd({ to: emailTo, from, subject: emailSubject, body: emailBody, thread_id });
+    } else {
+      emailAdd({ to: emailTo, from, subject: emailSubject, body: emailBody });
+    }
     setOpenEmailSentSuccess(true);
     handleClose();
   }
@@ -64,6 +80,12 @@ export const ComposeEmail = ({
     if (emailTo.length < 1) return false;
     return /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(emailTo);
   };
+
+  useEffect(() => {
+    setEmailTo(to ? to : '');
+    setEmailCc(cc ? cc : '');
+    setEmailSubject(subject ? subject : '');
+  }, [to, subject, cc])
 
   return (
     <div>
@@ -74,7 +96,9 @@ export const ComposeEmail = ({
         onClose={handleClose}
       >
         <DialogTitle>
-          New Message
+          {
+            isReply ? 'Reply' : 'New Message'
+          }
 
           <IconButton onClick={handleClose} aria-label="delete" className={classes.closeBtn}>
             <CloseIcon fontSize="small" />
@@ -98,10 +122,35 @@ export const ComposeEmail = ({
               )
             }}
           />
+          
+{/* 
+          <TextField
+            required
+            id="email_cc"
+            value={emailCc}
+            onChange={({target: { value }}: any) => setEmailCc(value)}
+            // onKeyDown={handleKeyPress}
+            // error={!validateEmail()}
+            margin="normal"
+            fullWidth
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  Cc:
+                  <Chip label="Basic" variant="outlined" />
+                  <Chip label="Basic" variant="outlined" />
+                  <Chip label="Basic" variant="outlined" />
+                </InputAdornment>
+              )
+            }}
+          />
+
+           */}
           <TextField
             required
             id="email_subject"
             value={emailSubject}
+            disabled={isReply}
             onChange={({target: { value }}: any) => setEmailSubject(value)}
             // onKeyDown={handleKeyPress}
             // error={!validateEmail()}
@@ -110,7 +159,7 @@ export const ComposeEmail = ({
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  Subject:
+                  Subject: {isReply ? 'Re - ' : ''}
                 </InputAdornment>
               )
             }}
