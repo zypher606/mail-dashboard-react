@@ -109,10 +109,11 @@ class Email {
     return 'Successful!';
   }
 
-  emailMarkDelete = (id: string) => {
+  emailMarkDelete = ({ids}: any) => {
+    const targetIds = ids.split(',');
     let emails: IEmail[] = this.getEmailCollection();
     emails = emails.map((item: IEmail) => {
-      if (item.id === id) item.is_deleted = true;
+      if (targetIds.includes(item.id)) item.is_deleted = true;
       return item;
     });
     this.setEmailCollection(emails);

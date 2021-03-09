@@ -3,7 +3,7 @@ import { ComposeEmail, Navigation, Sidebar } from '../../components';
 import { fade, makeStyles, useTheme } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import { sideDrawerWidth as drawerWidth } from '../../styles';
-import { Button, Container, Grid, Hidden, Paper, useMediaQuery } from '@material-ui/core';
+import { Button, Container, Grid, Hidden, Paper, Snackbar, useMediaQuery } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 import CachedIcon from '@material-ui/icons/Cached';
@@ -16,10 +16,11 @@ import IconButton from '@material-ui/core/IconButton';
 import EmailList from './components/EmailList';
 import { useStyles } from './styles';
 import { connect } from '../../stores';
-import { emailFetchAll, userSessionFetch } from "../../stores/actions";
+import { emailFetchAll, userSessionFetch, emailMarkDelete } from "../../stores/actions";
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import './mailboxScreen.scss';
+import { Alert } from '@material-ui/lab';
 
 interface IMailboxScreen {
   user: any;
@@ -34,6 +35,9 @@ export const MailboxScreen = connect()(({user, email, history}: IMailboxScreen) 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [searchBoxFocused, setSearchBoxFocused] = useState(false);
   const [isComposeEmailDialogOpen, setIsComposeEmailDialogOpen] = useState(false);
+  const [openEmailDeleteSuccess, setOpenEmailDeleteSuccess] = useState(false);
+  
+  const selectedEmails = new Set(); 
 
   const handleDrawerStateChange = (state: boolean) => {
     setIsDrawerOpen(state);
@@ -43,6 +47,25 @@ export const MailboxScreen = connect()(({user, email, history}: IMailboxScreen) 
     userSessionFetch();
     emailFetchAll();
   }, []);
+
+  const handleEmailSelection = (id: string, checked: boolean) => {
+    if (checked) {
+      selectedEmails.add(id);
+    } else {
+      selectedEmails.delete(id);
+    }
+  }
+
+  const handleEmailDelete = () => {
+    if (selectedEmails.size === 0) return;
+    emailMarkDelete({ids: Array.from(selectedEmails).join(',')});
+    setOpenEmailDeleteSuccess(true);
+    handleRefresh();
+  }
+
+  const handleRefresh = () => {
+    emailFetchAll();
+  }
 
   const disableSlider = !useMediaQuery(theme.breakpoints.up('sm'));
   
@@ -100,7 +123,7 @@ export const MailboxScreen = connect()(({user, email, history}: IMailboxScreen) 
                 <div className="inbox-container-action-bar">
 
                     <Hidden only={['lg', 'md']}>
-                      <IconButton className={classes.iconButtons} color="default" component="span">
+                      <IconButton onClick={handleRefresh} className={classes.iconButtons} color="default" component="span">
                           <CachedIcon />
                       </IconButton>
                     </Hidden>
@@ -109,6 +132,7 @@ export const MailboxScreen = connect()(({user, email, history}: IMailboxScreen) 
                       <Button
                         variant="contained"
                         color="default"
+                        onClick={handleRefresh}
                         startIcon={<CachedIcon />}
                       >
                         Refresh
@@ -122,7 +146,7 @@ export const MailboxScreen = connect()(({user, email, history}: IMailboxScreen) 
                     </Hidden>
 
 
-                    <IconButton className={classes.iconButtons} color="default" component="span">
+                    <IconButton onClick={handleEmailDelete} className={classes.iconButtons} color="default" component="span">
                       <DeleteOutlineIcon />
                     </IconButton>
                   </div>
@@ -135,7 +159,7 @@ export const MailboxScreen = connect()(({user, email, history}: IMailboxScreen) 
                     </IconButton>
                   </div>
                   <br/>
-                  <EmailList emails={email.emails || []} />
+                  <EmailList emails={email.emails || []} handleEmailSelection={handleEmailSelection} />
               </Container>
             </Paper>
           </Grid>
@@ -150,7 +174,12 @@ export const MailboxScreen = connect()(({user, email, history}: IMailboxScreen) 
       </Container>
 
       <ComposeEmail from={user?.profile?.email} open={isComposeEmailDialogOpen} handleClose={() => setIsComposeEmailDialogOpen(false)} />
-
+      
+      <Snackbar open={openEmailDeleteSuccess} autoHideDuration={6000} onClose={() => setOpenEmailDeleteSuccess(false)}>
+        <Alert onClose={() => setOpenEmailDeleteSuccess(false)} severity="success">
+          Email(s) deleted!
+        </Alert>
+      </Snackbar>
     </div>
   )
 })

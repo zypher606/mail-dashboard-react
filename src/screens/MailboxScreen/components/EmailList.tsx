@@ -24,8 +24,12 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
+interface IEmailList {
+  emails: any[];
+  handleEmailSelection: any;
+}
 
-export default function EmailList({emails}: any) {
+export default function EmailList({emails, handleEmailSelection}: IEmailList) {
   const classes = useStyles();
   const [checked, setChecked] = React.useState([0]);
   const history = useHistory();
@@ -49,6 +53,11 @@ export default function EmailList({emails}: any) {
     history.push(Routes.MAILBOX_THREAD(thread_id));
   }
 
+  const handleEmailCheckboxChange = (e: any, id: string) => {
+    e.stopPropagation();
+    handleEmailSelection(id, e.target.checked);
+  }
+
   const isMobile = !useMediaQuery(theme.breakpoints.up('sm'));
 
 
@@ -62,9 +71,10 @@ export default function EmailList({emails}: any) {
             <ListItemIcon>
               <Checkbox
                 edge="start"
-                checked={false}
                 tabIndex={-1}
                 disableRipple
+                onClick={(e) => e.stopPropagation()}
+                onChange={(e) => handleEmailCheckboxChange(e, id)}
                 inputProps={{ 'aria-labelledby': labelId }}
               />
             </ListItemIcon>
