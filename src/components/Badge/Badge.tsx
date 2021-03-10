@@ -27,6 +27,6 @@ export const Badge = ({
   const classes = useStyles();
 
   return (
-    <div {...rest} className={classes.folderBadge} style={{background}}>{children}</div>
+    <div data-testid="badge-container" {...rest} className={classes.folderBadge} style={{background}}>{children}</div>
   )
 }
