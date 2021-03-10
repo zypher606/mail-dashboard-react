@@ -33,12 +33,25 @@ export const MailThreadScreen = connect()(({user, email}: IMailThreadScreen) => 
   const theme = useTheme();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isComposeEmailDialogOpen, setIsComposeEmailDialogOpen] = useState(false);
-  const [searchBoxFocused, setSearchBoxFocused] = useState(false);
+  const [isEmailReply, setIsEmailReply] = useState(false);
+  const [emailReplyPayload, setEmailReplyPayload] = useState<any>({});
 
   const { thread_id }: any = useParams();
 
   const handleDrawerStateChange = (state: boolean) => {
     setIsDrawerOpen(state);
+  }
+
+  const handleReply = (payload: any) => {
+    setIsEmailReply(true);
+    setEmailReplyPayload(payload);
+    setIsComposeEmailDialogOpen(true);
+  }
+
+  const handleComposeMail = () => {
+    setIsEmailReply(false);
+    setEmailReplyPayload({});
+    setIsComposeEmailDialogOpen(true);
   }
 
   useEffect(() => {
@@ -69,26 +82,32 @@ export const MailThreadScreen = connect()(({user, email}: IMailThreadScreen) => 
         <Grid container spacing={1}>
           <Hidden only={['md', 'sm', 'xs']}>
             <Grid item lg={3}>
-              <Sidebar unreadCount={email.unreadCount} handleComposeMail={() => setIsComposeEmailDialogOpen(true)}  />
+              <Sidebar unreadCount={email.unreadCount} handleComposeMail={handleComposeMail}  />
             </Grid>
           </Hidden>
           <Grid item lg={9} md={12} xs={12}>
-            <EmailThread thread={email.thread || []} />
+            <EmailThread thread={email.thread || []} handleReply={handleReply} />
           </Grid>
           
         </Grid>
 
         <Hidden only={['lg']}>
           <Fab className={classes.composeFabBtn} color="secondary" aria-label="add">
-            <AddIcon onClick={() => setIsComposeEmailDialogOpen(true)} />
+            <AddIcon onClick={handleComposeMail} />
           </Fab>
         </Hidden>
         
       </Container>
 
-      
 
-      <ComposeEmail from={''} open={isComposeEmailDialogOpen} handleClose={() => setIsComposeEmailDialogOpen(false)} />
+      <ComposeEmail 
+        {...emailReplyPayload}
+        // to={emailReplyPayload.to}
+        isReply={isEmailReply} 
+        from={user?.profile?.email} 
+        open={isComposeEmailDialogOpen} 
+        handleClose={() => setIsComposeEmailDialogOpen(false)} 
+      />
     </div>
   )
 })

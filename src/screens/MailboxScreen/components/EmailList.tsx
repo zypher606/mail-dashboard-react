@@ -13,6 +13,7 @@ import { Badge } from '../../../components';
 import AttachmentIcon from '@material-ui/icons/Attachment';
 import { useHistory } from 'react-router-dom';
 import { Routes } from '../../../appRoutes/RouteMappings';
+import { emailMarkRead } from "../../../stores/actions";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -23,8 +24,12 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
+interface IEmailList {
+  emails: any[];
+  handleEmailSelection: any;
+}
 
-export default function EmailList({emails}: any) {
+export default function EmailList({emails, handleEmailSelection}: IEmailList) {
   const classes = useStyles();
   const [checked, setChecked] = React.useState([0]);
   const history = useHistory();
@@ -43,8 +48,14 @@ export default function EmailList({emails}: any) {
     setChecked(newChecked);
   };
 
-  const handleMailOpen = (thread_id: string) => {
+  const handleMailOpen = (id: string, thread_id: string) => {
+    emailMarkRead({id});
     history.push(Routes.MAILBOX_THREAD(thread_id));
+  }
+
+  const handleEmailCheckboxChange = (e: any, id: string) => {
+    e.stopPropagation();
+    handleEmailSelection(id, e.target.checked);
   }
 
   const isMobile = !useMediaQuery(theme.breakpoints.up('sm'));
@@ -56,13 +67,14 @@ export default function EmailList({emails}: any) {
         const labelId = `checkbox-list-label-${id}`;
 
         return (
-          <ListItem key={id} role={undefined} dense button onClick={() => handleMailOpen(thread_id)}>
+          <ListItem key={id} role={undefined} dense button onClick={() => handleMailOpen(id, thread_id)}>
             <ListItemIcon>
               <Checkbox
                 edge="start"
-                checked={false}
                 tabIndex={-1}
                 disableRipple
+                onClick={(e) => e.stopPropagation()}
+                onChange={(e) => handleEmailCheckboxChange(e, id)}
                 inputProps={{ 'aria-labelledby': labelId }}
               />
             </ListItemIcon>

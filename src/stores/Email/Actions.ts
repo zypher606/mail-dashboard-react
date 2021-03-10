@@ -8,6 +8,12 @@ import {
   EMAIL_FETCH_THREAD,
   EMAIL_FETCH_THREAD_SUCCESS,
   EMAIL_FETCH_THREAD_ERROR,
+  EMAIL_MARK_READ,
+  EMAIL_MARK_READ_SUCCESS,
+  EMAIL_MARK_READ_ERROR,
+  EMAIL_MARK_DELETE,
+  EMAIL_MARK_DELETE_SUCCESS,
+  EMAIL_MARK_DELETE_ERROR,
 } from "./Types";
 import { ActionDispatcher } from "../ActionDispatcher/ActionDispatcher";
 import { StorageManager } from "../../utilities";
@@ -70,6 +76,48 @@ export function emailFetchThreadSuccess(response: any) {
 export function emailFetchThreadError(error: any) {
   return {
     type: EMAIL_FETCH_THREAD_ERROR,
+    error,
+  };
+}
+
+export function emailMarkRead(payload: any) {
+  return ActionDispatcher.getInstance().dispatch({
+    type: EMAIL_MARK_READ,
+    payload,
+  });
+}
+
+export function emailMarkReadSuccess(response: any) {
+  return {
+    type: EMAIL_MARK_READ_SUCCESS,
+    response,
+  };
+}
+
+export function emailMarkReadError(error: any) {
+  return {
+    type: EMAIL_MARK_READ_ERROR,
+    error,
+  };
+}
+
+export function emailMarkDelete(payload: any) {
+  return ActionDispatcher.getInstance().dispatch({
+    type: EMAIL_MARK_DELETE,
+    payload,
+  });
+}
+
+export function emailMarkDeleteSuccess(response: any) {
+  return {
+    type: EMAIL_MARK_DELETE_SUCCESS,
+    response,
+  };
+}
+
+export function emailMarkDeleteError(error: any) {
+  return {
+    type: EMAIL_MARK_DELETE_ERROR,
     error,
   };
 }

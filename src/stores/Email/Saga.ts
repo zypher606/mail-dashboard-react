@@ -1,5 +1,5 @@
 import { call, put } from "redux-saga/effects";
-import { emailAdd, emailFetchAll, emailFetchThread } from "./Service";
+import { emailAdd, emailFetchAll, emailFetchThread, emailMarkRead, emailMarkDelete } from "./Service";
 import {
   emailAddSuccess,
   emailAddError,
@@ -7,6 +7,10 @@ import {
   emailFetchAllError,
   emailFetchThreadSuccess,
   emailFetchThreadError,
+  emailMarkReadSuccess,
+  emailMarkReadError,
+  emailMarkDeleteSuccess,
+  emailMarkDeleteError,
 } from "./Actions";
 
 export function* handleEmailAdd({type, payload}: any): any {
@@ -33,5 +37,23 @@ export function* handleEmailFetchThread({type, payload}: any): any {
     yield put(emailFetchThreadSuccess(response));
   } catch (error) {
     yield put(emailFetchThreadError(error));
+  }
+}
+
+export function* handleEmailMarkRead({type, payload}: any): any {
+  try {
+    const response = yield call(emailMarkRead, payload);
+    yield put(emailMarkReadSuccess(response));
+  } catch (error) {
+    yield put(emailMarkReadError(error));
+  }
+}
+
+export function* handleEmailMarkDelete({type, payload}: any): any {
+  try {
+    const response = yield call(emailMarkDelete, payload);
+    yield put(emailMarkDeleteSuccess(response));
+  } catch (error) {
+    yield put(emailMarkDeleteError(error));
   }
 }
