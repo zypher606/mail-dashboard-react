@@ -19,7 +19,7 @@ export default function Categories({categories}: any) {
             <ListItemIcon className={classes.listItemIcon}>
               <FiberManualRecordIcon style={{color, fontSize: '21px'}} />
             </ListItemIcon>
-            <ListItemText primary={name} />
+            <ListItemText data-testid={id} primary={name} />
           </ListItem>
         ))
       }

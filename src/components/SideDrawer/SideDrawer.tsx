@@ -56,7 +56,7 @@ export const SideDrawer = ({
     <>
       <div className={classes.toolbar}>
         <Avatar alt="Ashim Raj" src={userAvatarIcon} />
-        <div className={classes.toolbarUsername}>
+        <div data-testid="user-fullname" className={classes.toolbarUsername}>
           {
             profile?.name || 'John Doe'
           }
@@ -89,14 +89,14 @@ export const SideDrawer = ({
           <KeyboardArrowLeftIcon />
         </ListItem>
         <ListItem 
-          button 
+          button
           className={classes.listTabActiveStyles} 
           onClick={handleMailboxTabClick}
         >
           <ListItemIcon className={classes.listTabActiveStyles}>
             <MailOutlineIcon />
           </ListItemIcon>
-          <ListItemText primary="Mailbox" />
+          <ListItemText data-testid="button-mailbox" primary="Mailbox" />
           {openMailboxTab && isDrawerOpen ? <KeyboardArrowDownIcon /> : <KeyboardArrowLeftIcon />}
         </ListItem>
         <Collapse in={openMailboxTab && isDrawerOpen} timeout="auto" unmountOnExit>

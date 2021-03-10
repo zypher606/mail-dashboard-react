@@ -104,7 +104,7 @@ export const Sidebar = ({
     <div>
       <div className={classes.sidebarContainer}>
         <div className={classes.composeMailButtonContainer}>
-          <Button onClick={handleComposeMail} className={classes.composeMailButton} variant="contained" color="secondary" >Compose Mail</Button>
+          <Button data-testid="compose-button" onClick={handleComposeMail} className={classes.composeMailButton} variant="contained" color="secondary" >Compose Mail</Button>
         </div>
         <br/>
         <Folders unreadCount={unreadCount} />

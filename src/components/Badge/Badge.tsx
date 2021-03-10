@@ -21,11 +21,12 @@ interface IBadge {
 export const Badge = ({
   color: background,
   children,
+  ...rest
 }: IBadge)  => {
 
   const classes = useStyles();
 
   return (
-    <div className={classes.folderBadge} style={{background}}>{children}</div>
+    <div {...rest} className={classes.folderBadge} style={{background}}>{children}</div>
   )
 }

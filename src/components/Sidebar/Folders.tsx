@@ -33,7 +33,7 @@ export default function Folders({unreadCount}: any) {
           <InboxIcon />
         </ListItemIcon>
         <ListItemText primary="Inbox" />
-        <Badge color={'#ee524d'}>{unreadCount}</Badge>
+        <Badge data-testid="unread-badge" color={'#ee524d'}>{unreadCount}</Badge>
       </ListItem>
       <Divider />
       <ListItem button>
