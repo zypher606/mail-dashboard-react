@@ -43,7 +43,7 @@ export const RegisterScreen = connect()(({user}: any) => {
   };
 
   const validateName = () => {
-    return name.length > 0 && /^[a-zA-Z]+$/i.test(name);
+    return name.length > 0 && /^[a-zA-Z\s]*$/.test(name);
   }
 
   const handleKeyPress = (e: any) => {
