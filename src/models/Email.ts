@@ -15,7 +15,7 @@ interface IEmail {
   body: string;
   is_read: boolean;
   is_deleted: boolean;
-  date_created: any;
+  date_created: Date;
 }
 
 class Email {
@@ -68,7 +68,8 @@ class Email {
     const { email: email_id }: any = StorageManager.get('currentUser');
     const emails: IEmail[] = this.getEmailCollection();
     const filteredEmails: IEmail[] = emails.filter(({received_by, is_deleted}) => received_by === email_id && !is_deleted);
-    return filteredEmails;
+    
+    return filteredEmails.sort((b: IEmail, a: IEmail) => new Date(a.date_created).getTime() - new Date(b.date_created).getTime());
   }
 
   getEmailThread = (threadId: string) => {
