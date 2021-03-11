@@ -1,0 +1,11 @@
+.is-expanded {
+  .email-accordion-body {
+    display: none !important;
+  }
+}
+
+.is-not-expanded {
+  .details-button {
+    display: none !important;
+  }
+}

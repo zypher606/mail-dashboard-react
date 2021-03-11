@@ -87,7 +87,7 @@ export const CustomAccordion = ({
 
   return (
     <Accordion square expanded={true}>
-      <AccordionSummary onClick={toggleExpanded}>
+      <AccordionSummary onClick={toggleExpanded} className={expanded ? 'is-expanded' : 'is-not-expanded'}>
         { heading }
       </AccordionSummary>
       <div className={expanded ? classes.detailExpanded : classes.detailCollapsed}>

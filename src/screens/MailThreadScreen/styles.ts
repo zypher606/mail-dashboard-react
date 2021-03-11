@@ -109,12 +109,14 @@ export const useStyles = makeStyles((theme: any) => ({
   emailThreadMessageUsername: {
     fontWeight: 'bold',
   },
+  
   emailThreadMessageTruncated : {
     fontSize: '15px',
   },
-  emailSubject: {
+  
+  threadHeading: {
     fontSize: '26px',
-    paddingLeft: theme.spacing(6),
+    // paddingLeft: theme.spacing(6),
     marginBottom: '25px',
     marginTop: '5px',
   },
@@ -126,6 +128,31 @@ export const useStyles = makeStyles((theme: any) => ({
     bottom: '5px',
     right: '5px',
     color: '#fff'
+  },
+  backBtn: {
+    marginLeft: '-6px',
+    marginRight: '6px',
+  },
+  popover: {
+    pointerEvents: 'none',
+    display: 'flex',
+  },
+  paper: {
+    padding: theme.spacing(1),
+  },
+  detailsTextContainer: {
+    display: 'flex',
+    fontSize: '13px',
+  },
+  detailsIcon: {
+    fontSize: '21px',
+  },
+  popupMenu: {
+    marginTop: '10px',
+  },
+  popupDetailChips: {
+    marginLeft: '3px',
+    marginRight: '3px',
   }
 
 }));

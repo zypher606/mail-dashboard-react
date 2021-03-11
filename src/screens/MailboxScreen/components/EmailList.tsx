@@ -14,6 +14,7 @@ import AttachmentIcon from '@material-ui/icons/Attachment';
 import { useHistory } from 'react-router-dom';
 import { Routes } from '../../../appRoutes/RouteMappings';
 import { emailMarkRead } from "../../../stores/actions";
+import { timeDifference } from "../../../utilities";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -63,7 +64,7 @@ export default function EmailList({emails, handleEmailSelection}: IEmailList) {
 
   return (
     <List className={classes.root}>
-      {emails.map(({from, subject, body, id, is_read, thread_id}: any) => {
+      {emails.map(({from, subject, body, id, is_read, thread_id, date_created}: any) => {
         const labelId = `checkbox-list-label-${id}`;
 
         return (
@@ -113,7 +114,7 @@ export default function EmailList({emails, handleEmailSelection}: IEmailList) {
               
               <Grid item xs={2}>
                 <ListItemSecondaryAction>
-                  6:10 am
+                  {timeDifference(Date.now(), new Date(date_created))}
                 </ListItemSecondaryAction>
               </Grid>
             </Grid>
