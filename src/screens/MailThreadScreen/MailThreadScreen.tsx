@@ -58,7 +58,11 @@ export const MailThreadScreen = connect()(({user, email}: IMailThreadScreen) => 
     userSessionFetch();
     emailFetchAll();
     emailFetchThread(thread_id);
-  }, [])
+  }, []);
+
+  const handleEmailSendSuccess = () => {
+    emailFetchThread(thread_id);
+  }
 
   const disableSlider = !useMediaQuery(theme.breakpoints.up('sm'));
 
@@ -106,7 +110,8 @@ export const MailThreadScreen = connect()(({user, email}: IMailThreadScreen) => 
         isReply={isEmailReply} 
         from={user?.profile?.email} 
         open={isComposeEmailDialogOpen} 
-        handleClose={() => setIsComposeEmailDialogOpen(false)} 
+        handleClose={() => setIsComposeEmailDialogOpen(false)}
+        handleEmailSendSuccess={handleEmailSendSuccess}
       />
     </div>
   )
