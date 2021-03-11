@@ -26,7 +26,6 @@ export const AppContainer = withRouter<any, any>(
     const { pathname } = location;
     return (
       <div>
-        {/* {networkActivity.inProgress && pathname.includes('select-payment-method') && <AppLoader />} */}
         {children}
       </div>
     );

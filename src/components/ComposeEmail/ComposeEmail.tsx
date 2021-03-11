@@ -74,7 +74,6 @@ export const ComposeEmail = ({
   handleEmailSendSuccess = () => {},
 }: IComposeEmail) => {
 
-  console.log(to)
   const [scroll, setScroll] = useState<DialogProps['scroll']>('paper');
   const [emailSubject, setEmailSubject] = useState(subject ? subject : '');
   const [emailBody, setEmailBody] = useState('');
@@ -111,7 +110,6 @@ export const ComposeEmail = ({
     } else {
       setOpenIncorrectEmailWarning(true);
     }
-    console.log(emailListTo)
   }
 
   const handleDeleteEmailFromListTo = (email: string) => {
