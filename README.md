@@ -1,13 +1,12 @@
 ## Project Demo
 [https://xenodochial-turing-e82df7.netlify.app/](https://xenodochial-turing-e82df7.netlify.app/)
 
-## Problem Statement
+## Description
 
-A simple UI that exhibits functionalities listed below in relevant section. Following are few guidelines.
-1. You are free to use Vanilla javascript / JS Framework of your choice 
-2. The UI need not have a server back end and you can use Mock Data with CRUD operations on HTML5 Local Storage
-3. Feel free to select an alternative color theme and assets.
-4. Please provide Test Coverage
+1. Crafted with React and Material UI
+2. CRUD operations on HTML5 Local Storage for data management
+4. Test coverage for reusable components
+5. UI Responsive targeted platforms: a) Desktops & Laptops b) iPads c) iPhones
 
 ## Functionalities
 
@@ -34,8 +33,10 @@ You will also see any lint errors in the console.
 
 ### `yarn test`
 
+
 Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+
 
 ### `yarn build`
 
