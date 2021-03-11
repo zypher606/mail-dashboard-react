@@ -7,7 +7,7 @@ exports[`CustomAccordion component tests matches snapshot 1`] = `
   <div
     aria-disabled={false}
     aria-expanded={true}
-    className="MuiButtonBase-root MuiAccordionSummary-root WithStyles(ForwardRef(AccordionSummary))-root-13 Mui-expanded WithStyles(ForwardRef(AccordionSummary))-expanded-15"
+    className="MuiButtonBase-root MuiAccordionSummary-root WithStyles(ForwardRef(AccordionSummary))-root-13 is-expanded Mui-expanded WithStyles(ForwardRef(AccordionSummary))-expanded-15"
     onBlur={[Function]}
     onClick={[Function]}
     onDragLeave={[Function]}
