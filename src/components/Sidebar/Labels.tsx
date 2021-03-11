@@ -15,6 +15,7 @@ export default function Labels({labels}: any) {
           labels.map(({id, name}: any) => (
             <Chip
               key={id}
+              data-testid={id}
               className={classes.customChip}
               icon={<LocalOfferIcon className={classes.chipLeftIcon} />}
               label={name}

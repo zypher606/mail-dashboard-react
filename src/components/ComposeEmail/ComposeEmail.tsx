@@ -95,7 +95,7 @@ export const ComposeEmail = ({
         fullScreen={fullScreen}
         onClose={handleClose}
       >
-        <DialogTitle>
+        <DialogTitle data-testid="email-isReply">
           {
             isReply ? 'Reply' : 'New Message'
           }
@@ -107,6 +107,7 @@ export const ComposeEmail = ({
         <DialogContent>
           <TextField
             required
+            data-testid="email-to"
             id="email_to"
             value={emailTo}
             onChange={({target: { value }}: any) => setEmailTo(value)}
@@ -148,6 +149,7 @@ export const ComposeEmail = ({
            */}
           <TextField
             required
+            data-testid="email-subject"
             id="email_subject"
             value={emailSubject}
             disabled={isReply}
